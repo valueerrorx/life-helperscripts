@@ -15,14 +15,14 @@ if [ $ISINTEL == "1" ];
 then
     echo "Creating Xorg Configuraion for Intel Backlight"
     
-    echo "
-Section 'Device'
-    Identifier  'Intel Graphics' 
-    Driver      'intel'
-    Option      'Backlight'  'intel_backlight'
+    echo '
+Section "Device"
+    Identifier  "Intel Graphics" 
+    Driver      "intel"
+    Option      "Backlight"  "intel_backlight"
 EndSection
 
-" > /etc/X11/xorg.conf.d/20-intel.conf
+' > /etc/X11/xorg.conf.d/20-intel.conf
   
 else
     rm /etc/X11/xorg.conf.d/20-intel.conf
