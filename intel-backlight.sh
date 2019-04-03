@@ -25,6 +25,8 @@ EndSection
 ' > /etc/X11/xorg.conf.d/20-intel.conf
   
 else
-    rm /etc/X11/xorg.conf.d/20-intel.conf
+    echo "Removing Intel Xorg Configuration"
+    rm /etc/X11/xorg.conf.d/20-intel.conf  > /dev/null 2>&1
 fi
 
+exit 0
