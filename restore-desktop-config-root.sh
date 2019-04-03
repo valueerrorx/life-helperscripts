@@ -8,7 +8,7 @@ BACKUPDIR="${HOME}.life/systemrestore/"
 
 echo "Aktuelle Desktop Konfiguration mit Backup ersetzen?"
 echo "!! strg+c um abzubbrechen !!"
-sleep 4
+sleep 2
 
 
 if [ "$(id -u)" != "0" ]; then
@@ -17,7 +17,7 @@ if [ "$(id -u)" != "0" ]; then
 fi
 
 
-
+paplay /usr/share/sounds/KDE-Sys-App-Positive.ogg
 
 
 
