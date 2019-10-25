@@ -106,6 +106,10 @@ then
         echo ""
         echo "exec xrandr --output $DISPLAY1 --mode $RESOLUTION --primary $TRANSFORM --output ${DISPLAYS[0]} --mode $RESOLUTION --same-as $DISPLAY1 --output ${DISPLAYS[1]} --mode $RESOLUTION --same-as $DISPLAY1 &"
         exec xrandr --output $DISPLAY1 --mode $RESOLUTION --primary $TRANSFORM --output ${DISPLAYS[0]} --mode $RESOLUTION --same-as $DISPLAY1 --output ${DISPLAYS[1]} --mode $RESOLUTION --same-as $DISPLAY1 &
+       
+        #private setting
+        #exec xrandr --output $DISPLAY1 --mode 1280x800 --primary $TRANSFORM --output ${DISPLAYS[0]} --mode 1280x800 --same-as $DISPLAY1 --output ${DISPLAYS[1]} --mode 1920x1080 --right-of $DISPLAY1 &
+
     fi
 else
     echo "This should be your secondary screen"
@@ -138,13 +142,13 @@ fi
 
 
 #current plasmashell 5.11 leaves some unrendered pixels at the bottom after running randr (dirty workaround)
-PLASMASHELL=$(ps caux| grep plasmashell|wc -l)
-if [[ ( $PLASMASHELL = "1" ) ]];
-then
-    exec kquitapp5 plasmashell &
-    exec kstart5 plasmashell &
-fi
-    
+# PLASMASHELL=$(ps caux| grep plasmashell|wc -l)
+# if [[ ( $PLASMASHELL = "1" ) ]];
+# then
+#     exec kquitapp5 plasmashell &
+#     exec kstart5 plasmashell &
+# fi
+#     
 
 
 
