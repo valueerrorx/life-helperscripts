@@ -15,7 +15,7 @@ rsync --exclude='*klipper/*' --exclude='*CacheStorage*' --exclude='*ScriptCache*
 
 echo "Stelle .config wieder her...."
 #cp -Ra ${BACKUPDIR}/home.config/* ${HOME}.config/
-rsync --exclude='*klipper/*' --exclude='*CacheStorage*' --exclude='*ScriptCache*' --exclude='*Trash*' --exclude='*RecentDocuments*'  --exclude='*katesession*' --exclude='*cache*' --exclude='*baloo/*' --exclude='*.log*' --exclude='*~' --exclude='*.pid' --exclude='*.bak' --exclude='*.[0-9].gz' --exclude='*.old' --exclude='*.deb' --exclude='*.local/lib/' --exclude='kdecache*' -avzh --ignore-errors ${BACKUPDIR}/home.config/* ${HOME}.config/
+rsync --exclude='*firststart*' --exclude='*klipper/*' --exclude='*CacheStorage*' --exclude='*ScriptCache*' --exclude='*Trash*' --exclude='*RecentDocuments*'  --exclude='*katesession*' --exclude='*cache*' --exclude='*baloo/*' --exclude='*.log*' --exclude='*~' --exclude='*.pid' --exclude='*.bak' --exclude='*.[0-9].gz' --exclude='*.old' --exclude='*.deb' --exclude='*.local/lib/' --exclude='kdecache*' -avzh --ignore-errors ${BACKUPDIR}/home.config/* ${HOME}.config/
 
 
 echo "Stelle .local wieder her...."
