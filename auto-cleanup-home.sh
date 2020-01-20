@@ -10,7 +10,8 @@ echo "Deleting all personal files (for public computers)"
 #
 
 MOUNTCHECK=$(df -h |grep Downloads | wc -l) 
-if test $FSTABCHECK = "1" 
+
+if test $MOUNTCHECK = "1" 
 then
     echo "Skipping Downloads because of mounted device"
 else
