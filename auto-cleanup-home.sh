@@ -9,8 +9,18 @@ HOME="/home/${USER}/"
 echo "Deleting all personal files (for public computers)"
 #
 
+MOUNTCHECK=$(df -h |grep Downloads | wc -l) 
 
-rm -r $HOME/Downloads/*
+if test $MOUNTCHECK = "1" 
+then
+    echo "Skipping Downloads because of mounted device"
+else
+    rm -r $HOME/Downloads/*
+fi
+ 
+ 
+ 
+
 rm $HOME/*
 rm $HOME/.local/share/RecentDocuments/*
 rm $HOME/.kde/share/apps/RecentDocuments/*

@@ -25,10 +25,11 @@ rsync --exclude='*klipper/*' --exclude='*CacheStorage*' --exclude='*ScriptCache*
 
 
 echo "Entferne icon cache ...."  #remove icon cache - otherwise some changes will not be visible
-sudo rm /usr/share/icons/hicolor/icon-theme.cache  > /dev/null 2>&1  #hide errors
-sudo rm /var/tmp/kdecache-${USER}/plasma_theme_default.kcache  > /dev/null 2>&1  #hide errors
-sudo rm /var/tmp/kdecache-${USER}/icon-cache.kcache  > /dev/null 2>&1  #hide errors
-sudo rm -r ${HOME}.cache  > /dev/null 2>&1  #hide errors
+
+# sudo rm /usr/share/icons/hicolor/icon-theme.cache  > /dev/null 2>&1  #hide errors
+# sudo rm /var/tmp/kdecache-${USER}/plasma_theme_default.kcache  > /dev/null 2>&1  #hide errors
+# sudo rm /var/tmp/kdecache-${USER}/icon-cache.kcache  > /dev/null 2>&1  #hide errors
+rm -r ${HOME}.cache  > /dev/null 2>&1  #hide errors
 
 
 echo "Deskop Konfiguration wiederhergestellt!"
