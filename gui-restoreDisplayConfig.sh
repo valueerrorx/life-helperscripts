@@ -5,7 +5,7 @@
 
 PRIMARY=""
 BEAMER=""
-SECOND=""
+SECONDARY=""
 
 
 ####################################
@@ -13,7 +13,7 @@ SECOND=""
 ####################################
 
 PRIMARY=$(xrandr | grep -h "\sconnected" | grep primary| awk '{print $1}')
-SECONDARY=$(xrandr | grep -h "\sconnected" | grep -v primary|awk '{print $1}')   #this could potentially deliver more than one line
+OTHERDISPLAYS=$(xrandr | grep -h "\sconnected" | grep -v primary|awk '{print $1}')   #this could potentially deliver more than one line
 
 
 ####################################
@@ -63,10 +63,10 @@ askbeamer() {
     if [ "$?" = 0 ]; then
         if [ "$choice" = ${DISPLAYS[0]} ]; then
             BEAMER=${DISPLAYS[0]}
-            SECOND=${DISPLAYS[1]}
+            SECONDARY=${DISPLAYS[1]}
         elif [ "$choice" = ${DISPLAYS[1]} ]; then
             BEAMER=${DISPLAYS[1]}
-            SECOND=${DISPLAYS[0]}
+            SECONDARY=${DISPLAYS[0]}
         else
             kdialog --error "ERROR";
             exit 0
@@ -78,7 +78,7 @@ askbeamer() {
         exit 0
     fi;
     echo "This should be your primary screen: ${PRIMARY}"
-    echo "This should be your secondary screen: ${SECOND} "
+    echo "This should be your secondary screen: ${SECONDARY} "
     echo "This should be your Beamer: ${BEAMER}"
     echo ""
 }
@@ -155,6 +155,8 @@ fi
 ## 1 SECONDARY DISPLAY
 if [[ ( $NUMBEROFSECONDARYDISPLAYS = "1" ) ]];  #2 Ausgabegeräte
 then  
+    SECONDARY=$OTHERDISPLAYS   #there is just one other identifier 
+    
     echo "This should be your primary screen: ${PRIMARY}"
     echo "This should be your secondary screen ${SECONDARY}"
     echo ""
@@ -177,7 +179,7 @@ then
 elif [[ ( $NUMBEROFSECONDARYDISPLAYS = "2" ) ]];  #3 Ausgabegeräte
 then
     # convert string to array
-    readarray -t DISPLAYS <<<"$SECONDARY"
+    readarray -t DISPLAYS <<<"$OTHERDISPLAYS"
     
    # ask user for the preferred setup (clone, extend)
     choice=$(kdialog --title "Displaysetup" --combobox "3 Ausgabegeräte gefunden! Bitte wählen sie die bevorzugte Einstellung" "Klonen" "Klonen + Erweitern rechts" "Klonen + Erweitern links" --default "Klonen");
@@ -186,16 +188,16 @@ then
         if [ "$choice" = 'Klonen' ]; then
         
             BEAMER=${DISPLAYS[0]}
-            SECOND=${DISPLAYS[1]}
+            SECONDARY=${DISPLAYS[1]}
     
             echo "Initialising: clone"
             echo ""
             
             if [[ ( $PRIMARY == *"eDP"*) ||  ( $PRIMARY == *"LVDS"*) ]]; then
                 echo "Embedded Display found"
-                COMMAND="xrandr --output $PRIMARY --mode $RESOLUTION --primary --set 'scaling mode' Center --output ${BEAMER} --mode $RESOLUTION --same-as $PRIMARY --output ${SECOND} --mode $RESOLUTION --same-as $PRIMARY"
+                COMMAND="xrandr --output $PRIMARY --mode $RESOLUTION --primary --set 'scaling mode' Center --output ${BEAMER} --mode $RESOLUTION --same-as $PRIMARY --output ${SECONDARY} --mode $RESOLUTION --same-as $PRIMARY"
             else
-                COMMAND="xrandr --output $PRIMARY --mode $RESOLUTION --primary $TRANSFORM --output ${BEAMER} --mode $RESOLUTION --same-as $PRIMARY --output ${SECOND} --mode $RESOLUTION --same-as $PRIMARY"
+                COMMAND="xrandr --output $PRIMARY --mode $RESOLUTION --primary $TRANSFORM --output ${BEAMER} --mode $RESOLUTION --same-as $PRIMARY --output ${SECONDARY} --mode $RESOLUTION --same-as $PRIMARY"
             fi
             
             echo "Executing: ${COMMAND}"
@@ -209,14 +211,14 @@ then
             echo "Initialising: clone + extend right"
             echo ""
             
-            SECONDSCREENRES=$(xrandr --query | awk '{ print $1 }' | grep -A 1 ${SECOND}|tail -1)
-            echo "Biggest resolution for secondary screen: $SECONDSCREENRES"
+            SECONDARYSCREENRES=$(xrandr --query | awk '{ print $1 }' | grep -A 1 ${SECONDARY}|tail -1)
+            echo "Biggest resolution for secondary screen: $SECONDARYSCREENRES"
             
             if [[ ( $PRIMARY == *"eDP"*) ||  ( $PRIMARY == *"LVDS"*) ]]; then
                 echo "Embedded Display found"
-                COMMAND="xrandr --output $PRIMARY --mode $RESOLUTION --primary --set 'scaling mode' Center --output ${BEAMER} --mode $RESOLUTION --same-as $PRIMARY --output ${SECOND} --mode $SECONDSCREENRES --right-of $PRIMARY"
+                COMMAND="xrandr --output $PRIMARY --mode $RESOLUTION --primary --set 'scaling mode' Center --output ${BEAMER} --mode $RESOLUTION --same-as $PRIMARY --output ${SECONDARY} --mode $SECONDARYSCREENRES --right-of $PRIMARY"
             else
-                COMMAND="xrandr --output $PRIMARY --mode $RESOLUTION --primary $TRANSFORM --output ${BEAMER} --mode $RESOLUTION --same-as $PRIMARY --output ${SECOND} --mode $SECONDSCREENRES --right-of $PRIMARY"
+                COMMAND="xrandr --output $PRIMARY --mode $RESOLUTION --primary $TRANSFORM --output ${BEAMER} --mode $RESOLUTION --same-as $PRIMARY --output ${SECONDARY} --mode $SECONDARYSCREENRES --right-of $PRIMARY"
             fi
             
             echo "Executing: ${COMMAND}"
@@ -231,14 +233,14 @@ then
             echo "Initialising: clone + extend left"
             echo ""
              
-            SECONDSCREENRES=$(xrandr --query | awk '{ print $1 }' | grep -A 1 ${SECOND}|tail -1)
-            echo "Biggest resolution for secondary screen: $SECONDSCREENRES"
+            SECONDARYSCREENRES=$(xrandr --query | awk '{ print $1 }' | grep -A 1 ${SECONDARY}|tail -1)
+            echo "Biggest resolution for secondary screen: $SECONDARYSCREENRES"
             
             if [[ ( $PRIMARY == *"eDP"*) ||  ( $PRIMARY == *"LVDS"*) ]]; then
                 echo "Embedded Display found"
-                COMMAND="xrandr --output $PRIMARY --mode $RESOLUTION --primary --set 'scaling mode' Center --output ${BEAMER} --mode $RESOLUTION --same-as $PRIMARY --output ${SECOND} --mode $SECONDSCREENRES --left-of $PRIMARY"
+                COMMAND="xrandr --output $PRIMARY --mode $RESOLUTION --primary --set 'scaling mode' Center --output ${BEAMER} --mode $RESOLUTION --same-as $PRIMARY --output ${SECONDARY} --mode $SECONDARYSCREENRES --left-of $PRIMARY"
             else
-                COMMAND="xrandr --output $PRIMARY --mode $RESOLUTION --primary $TRANSFORM --output ${BEAMER} --mode $RESOLUTION --same-as $PRIMARY --output ${SECOND} --mode $SECONDSCREENRES --left-of $PRIMARY"
+                COMMAND="xrandr --output $PRIMARY --mode $RESOLUTION --primary $TRANSFORM --output ${BEAMER} --mode $RESOLUTION --same-as $PRIMARY --output ${SECONDARY} --mode $SECONDARYSCREENRES --left-of $PRIMARY"
             fi
             
             echo "Executing: ${COMMAND}"
@@ -259,6 +261,8 @@ then
         
     
 else  # ????
+    echo "Primary: $PRIMARY"
+    echo "Others : $OTHERDISPLAYS"
     echo "Schools don't use this kind of setup :-)"
     exit 0
 fi
