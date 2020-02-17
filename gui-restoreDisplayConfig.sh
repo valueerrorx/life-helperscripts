@@ -5,19 +5,29 @@
 
 PRIMARY=""
 BEAMER=""
-SECONDMONITOR=""
+SECOND=""
 
 
 ####################################
 ## GET DISPLAY IDENTIFIERS        ##
 ####################################
 
-DISPLAY1=$(xrandr | grep -h "\sconnected" | grep primary| awk '{print $1}')
-DISPLAY2=$(xrandr | grep -h "\sconnected" | grep -v primary|awk '{print $1}')   #this could potentially deliver more than one line
+PRIMARY=$(xrandr | grep -h "\sconnected" | grep primary| awk '{print $1}')
+SECONDARY=$(xrandr | grep -h "\sconnected" | grep -v primary|awk '{print $1}')   #this could potentially deliver more than one line
+
+
+####################################
+## COUNT EXTERNAL DISPLAYS        ##
+####################################
+
+NUMBEROFSECONDARYDISPLAYS=$(xrandr | grep -h "\sconnected" | grep -v primary|awk '{print $1}'|wc -l)
+
+
+
 
 
 ## NO SECONDARY DISPLAY 
-if [[ ( $DISPLAY2 = "" ) ]];
+if [[ ( $NUMBEROFSECONDARYDISPLAYS = "0" ) ]];
 then
     echo "no secondary display found"
     kdialog  --error 'Kein zweiter Bildschirm gefunden! Überprüfen sie die Steckverbindung.' --title 'Displaysetup'
@@ -36,7 +46,7 @@ Falls dieser Vorgang fehlschlägt versuchen sie bitte Folgendes:
 Überprüfen sie den Eingangskanal am Projektor!
 Starten sie notfalls den PC neu.
  
-' --title 'Beamer Setup'
+' --title 'Displaysetup'
 
 if [ "$?" = 0 ]; then
     sleep 0
@@ -53,10 +63,10 @@ askbeamer() {
     if [ "$?" = 0 ]; then
         if [ "$choice" = ${DISPLAYS[0]} ]; then
             BEAMER=${DISPLAYS[0]}
-            SECONDMONITOR=${DISPLAYS[1]}
+            SECOND=${DISPLAYS[1]}
         elif [ "$choice" = ${DISPLAYS[1]} ]; then
             BEAMER=${DISPLAYS[1]}
-            SECONDMONITOR=${DISPLAYS[0]}
+            SECOND=${DISPLAYS[0]}
         else
             kdialog --error "ERROR";
             exit 0
@@ -67,8 +77,8 @@ askbeamer() {
         kdialog --error "ERROR";
         exit 0
     fi;
-    echo "This should be your primary screen: ${DISPLAY1}"
-    echo "This should be your secondary screen: ${SECONDMONITOR} "
+    echo "This should be your primary screen: ${PRIMARY}"
+    echo "This should be your secondary screen: ${SECOND} "
     echo "This should be your Beamer: ${BEAMER}"
     echo ""
 }
@@ -99,7 +109,7 @@ then
     RESOLUTION="1024x768"
 fi
 
-echo "BIGGEST COMMON RESOLUTION: $RESOLUTION "
+echo "BIGGEST COMMON RESOLUTION IS SET TO: $RESOLUTION "
 echo ""
 
 
@@ -117,7 +127,7 @@ echo ""
 # 16:9 to 4:3 scaling
 # only if the primary screen has a 16:9 screenres and the final res is 4:3
 
-PRIMARYSCREENRES=$(xrandr --query | awk '{ print $1 }' | grep -A 1 $DISPLAY1 |tail -1)
+PRIMARYSCREENRES=$(xrandr --query | awk '{ print $1 }' | grep -A 1 $PRIMARY |tail -1)
 
 if [[ ( $PRIMARYSCREENRES == *"1920"*) &&  ( $RESOLUTION == *"1280"*) ]]; then
     TRANSFORM="--transform 1.1109375,0,0,0,1,0,0,0,1"    # this would scale the output on a 16:9 screen and display a 4:3 with black bar instead of stretching it
@@ -135,49 +145,39 @@ fi
 
 
 
-####################################
-## COUNT EXTERNAL DISPLAYS        ##
-####################################
-
-LINES=$(xrandr | grep -h "\sconnected" | grep -v primary|awk '{print $1}'|wc -l)
-
-
 
 
 ####################################
 ## SETUP                          ##
 ####################################
 
-
-
- 
  
 ## 1 SECONDARY DISPLAY
-if [[ ( $LINES = "1" ) ]];  #2 Ausgabegeräte
+if [[ ( $NUMBEROFSECONDARYDISPLAYS = "1" ) ]];  #2 Ausgabegeräte
 then  
-    echo "This should be your primary screen: ${DISPLAY1}"
-    echo "This should be your secondary screen ${DISPLAY2}"
+    echo "This should be your primary screen: ${PRIMARY}"
+    echo "This should be your secondary screen ${SECONDARY}"
     echo ""
     
-    if [[ ( $DISPLAY1 == *"eDP"*) ||  ( $DISPLAY1 == *"LVDS"*) ]]; then
+    if [[ ( $PRIMARY == *"eDP"*) ||  ( $PRIMARY == *"LVDS"*) ]]; then
         echo "Embedded Display found"
         
-        COMMAND="xrandr --output $DISPLAY1 --mode $RESOLUTION --primary --set 'scaling mode' Center --output $DISPLAY2 --mode $RESOLUTION --same-as $DISPLAY1"
+        COMMAND="xrandr --output $PRIMARY --mode $RESOLUTION --primary --set 'scaling mode' Center --output $SECONDARY --mode $RESOLUTION --same-as $PRIMARY"
         echo "Executing: ${COMMAND}"
         echo ""
         ${COMMAND}
     else
-        COMMAND="xrandr --output $DISPLAY1 --mode $RESOLUTION --primary $TRANSFORM --output $DISPLAY2 --mode $RESOLUTION --same-as $DISPLAY1"
+        COMMAND="xrandr --output $PRIMARY --mode $RESOLUTION --primary $TRANSFORM --output $SECONDARY --mode $RESOLUTION --same-as $PRIMARY"
         echo "Executing: ${COMMAND}"
         echo ""
         ${COMMAND}
     fi
     
 ## 2 SECONDARY DISPLAYS
-elif [[ ( $LINES = "2" ) ]];  #3 Ausgabegeräte
+elif [[ ( $NUMBEROFSECONDARYDISPLAYS = "2" ) ]];  #3 Ausgabegeräte
 then
     # convert string to array
-    readarray -t DISPLAYS <<<"$DISPLAY2"
+    readarray -t DISPLAYS <<<"$SECONDARY"
     
    # ask user for the preferred setup (clone, extend)
     choice=$(kdialog --title "Displaysetup" --combobox "3 Ausgabegeräte gefunden! Bitte wählen sie die bevorzugte Einstellung" "Klonen" "Klonen + Erweitern rechts" "Klonen + Erweitern links" --default "Klonen");
@@ -186,16 +186,16 @@ then
         if [ "$choice" = 'Klonen' ]; then
         
             BEAMER=${DISPLAYS[0]}
-            SECONDMONITOR=${DISPLAYS[1]}
+            SECOND=${DISPLAYS[1]}
     
             echo "Initialising: clone"
             echo ""
             
-            if [[ ( $DISPLAY1 == *"eDP"*) ||  ( $DISPLAY1 == *"LVDS"*) ]]; then
+            if [[ ( $PRIMARY == *"eDP"*) ||  ( $PRIMARY == *"LVDS"*) ]]; then
                 echo "Embedded Display found"
-                COMMAND="xrandr --output $DISPLAY1 --mode $RESOLUTION --primary --set 'scaling mode' Center --output ${BEAMER} --mode $RESOLUTION --same-as $DISPLAY1 --output ${SECONDMONITOR} --mode $RESOLUTION --same-as $DISPLAY1"
+                COMMAND="xrandr --output $PRIMARY --mode $RESOLUTION --primary --set 'scaling mode' Center --output ${BEAMER} --mode $RESOLUTION --same-as $PRIMARY --output ${SECOND} --mode $RESOLUTION --same-as $PRIMARY"
             else
-                COMMAND="xrandr --output $DISPLAY1 --mode $RESOLUTION --primary $TRANSFORM --output ${BEAMER} --mode $RESOLUTION --same-as $DISPLAY1 --output ${SECONDMONITOR} --mode $RESOLUTION --same-as $DISPLAY1"
+                COMMAND="xrandr --output $PRIMARY --mode $RESOLUTION --primary $TRANSFORM --output ${BEAMER} --mode $RESOLUTION --same-as $PRIMARY --output ${SECOND} --mode $RESOLUTION --same-as $PRIMARY"
             fi
             
             echo "Executing: ${COMMAND}"
@@ -209,14 +209,14 @@ then
             echo "Initialising: clone + extend right"
             echo ""
             
-            EXTSCREENRES=$(xrandr --query | awk '{ print $1 }' | grep -A 1 ${DISPLAYS[1]}|tail -1)
-            echo "Biggest resolution for secondary screen: $EXTSCREENRES"
+            SECONDSCREENRES=$(xrandr --query | awk '{ print $1 }' | grep -A 1 ${SECOND}|tail -1)
+            echo "Biggest resolution for secondary screen: $SECONDSCREENRES"
             
-            if [[ ( $DISPLAY1 == *"eDP"*) ||  ( $DISPLAY1 == *"LVDS"*) ]]; then
+            if [[ ( $PRIMARY == *"eDP"*) ||  ( $PRIMARY == *"LVDS"*) ]]; then
                 echo "Embedded Display found"
-                COMMAND="xrandr --output $DISPLAY1 --mode $RESOLUTION --primary --set 'scaling mode' Center --output ${BEAMER} --mode $RESOLUTION --same-as $DISPLAY1 --output ${SECONDMONITOR} --mode $EXTSCREENRES --right-of $DISPLAY1"
+                COMMAND="xrandr --output $PRIMARY --mode $RESOLUTION --primary --set 'scaling mode' Center --output ${BEAMER} --mode $RESOLUTION --same-as $PRIMARY --output ${SECOND} --mode $SECONDSCREENRES --right-of $PRIMARY"
             else
-                COMMAND="xrandr --output $DISPLAY1 --mode $RESOLUTION --primary $TRANSFORM --output ${BEAMER} --mode $RESOLUTION --same-as $DISPLAY1 --output ${SECONDMONITOR} --mode $EXTSCREENRES --right-of $DISPLAY1"
+                COMMAND="xrandr --output $PRIMARY --mode $RESOLUTION --primary $TRANSFORM --output ${BEAMER} --mode $RESOLUTION --same-as $PRIMARY --output ${SECOND} --mode $SECONDSCREENRES --right-of $PRIMARY"
             fi
             
             echo "Executing: ${COMMAND}"
@@ -231,14 +231,14 @@ then
             echo "Initialising: clone + extend left"
             echo ""
              
-            EXTSCREENRES=$(xrandr --query | awk '{ print $1 }' | grep -A 1 ${DISPLAYS[1]}|tail -1)
-            echo "Biggest resolution for secondary screen: $EXTSCREENRES"
+            SECONDSCREENRES=$(xrandr --query | awk '{ print $1 }' | grep -A 1 ${SECOND}|tail -1)
+            echo "Biggest resolution for secondary screen: $SECONDSCREENRES"
             
-            if [[ ( $DISPLAY1 == *"eDP"*) ||  ( $DISPLAY1 == *"LVDS"*) ]]; then
+            if [[ ( $PRIMARY == *"eDP"*) ||  ( $PRIMARY == *"LVDS"*) ]]; then
                 echo "Embedded Display found"
-                COMMAND="xrandr --output $DISPLAY1 --mode $RESOLUTION --primary --set 'scaling mode' Center --output ${BEAMER} --mode $RESOLUTION --same-as $DISPLAY1 --output ${SECONDMONITOR} --mode $EXTSCREENRES --left-of $DISPLAY1"
+                COMMAND="xrandr --output $PRIMARY --mode $RESOLUTION --primary --set 'scaling mode' Center --output ${BEAMER} --mode $RESOLUTION --same-as $PRIMARY --output ${SECOND} --mode $SECONDSCREENRES --left-of $PRIMARY"
             else
-                COMMAND="xrandr --output $DISPLAY1 --mode $RESOLUTION --primary $TRANSFORM --output ${BEAMER} --mode $RESOLUTION --same-as $DISPLAY1 --output ${SECONDMONITOR} --mode $EXTSCREENRES --left-of $DISPLAY1"
+                COMMAND="xrandr --output $PRIMARY --mode $RESOLUTION --primary $TRANSFORM --output ${BEAMER} --mode $RESOLUTION --same-as $PRIMARY --output ${SECOND} --mode $SECONDSCREENRES --left-of $PRIMARY"
             fi
             
             echo "Executing: ${COMMAND}"
