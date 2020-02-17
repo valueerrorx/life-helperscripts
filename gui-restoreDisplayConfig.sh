@@ -65,7 +65,15 @@ fi;
 ####################################
 
 DISPLAYCOUNT=$(xrandr --query | awk '/^ *[0-9]*x[0-9]*/{ print $1 }' | sort -n | uniq -d -c|head -n 1|awk '{print $1}')
-RESOLUTION=`xrandr --query | awk '/^ *[0-9]*x[0-9]*/{ print $1 }' | sort -n | uniq -d -c|grep -w ${DISPLAYCOUNT} |tail -1|awk '{print $2}'`
+
+if [[ ( $DISPLAYCOUNT = "" ) ]];
+then
+    RESOLUTION=`xrandr --query | awk '/^ *[0-9]*x[0-9]*/{ print $1 }' | sort -n | uniq -d -c`
+else
+    RESOLUTION=`xrandr --query | awk '/^ *[0-9]*x[0-9]*/{ print $1 }' | sort -n | uniq -d -c|grep -w ${DISPLAYCOUNT} |tail -1|awk '{print $2}'`
+fi
+
+
 
 # if something went wrong default to 1024x768
 COMMON=$( echo $RESOLUTION | grep x | wc -l )    # check for the x in 800x600
