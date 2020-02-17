@@ -3,6 +3,42 @@
 # this file uses xrandr to setup the beamer to be a clone of the lcd screen
 # and kdialog for userinteraction
 
+PRIMARY=""
+BEAMER=""
+SECONDMONITOR=""
+
+
+
+
+askbeamer() {
+    # ask user which one is the beamer
+    choice=$(kdialog --title "Displaysetup" --combobox "Bitte wählen sie die den Projektor" "${DISPLAYS[0]}" "${DISPLAYS[1]}" --default "${DISPLAYS[0]}");
+
+    if [ "$?" = 0 ]; then
+        if [ "$choice" = ${DISPLAYS[0]} ]; then
+            BEAMER=${DISPLAYS[0]}
+            SECONDMONITOR=${DISPLAYS[1]}
+        elif [ "$choice" = ${DISPLAYS[1]} ]; then
+            BEAMER=${DISPLAYS[1]}
+            SECONDMONITOR=${DISPLAYS[0]}
+        else
+            kdialog --error "ERROR";
+            exit 0
+        fi;
+    elif [ "$?" = 1 ]; then
+        exit 0
+    else
+        kdialog --error "ERROR";
+        exit 0
+    fi;
+    echo "This should be your primary screen: ${DISPLAY1}"
+    echo "This should be your secondary screen: ${SECONDMONITOR} "
+    echo "This should be your Beamer: ${BEAMER}"
+    echo ""
+}
+
+
+
 
 kdialog  --warningcontinuecancel '
 Automatische Displaykonfiguration
@@ -12,7 +48,6 @@ Falls dieser Vorgang fehlschlägt versuchen sie bitte Folgendes:
 Überprüfen sie die Steckverbindungen zwischen Projektor und PC.
 Überprüfen sie den Eingangskanal am Projektor!
 Starten sie notfalls den PC neu.
-Beschuldigen sie den IT Experten ihres Vertrauens.
  
 ' --title 'Beamer Setup'
 
@@ -114,14 +149,16 @@ then
     
     if [[ ( $DISPLAY1 == *"eDP"*) ||  ( $DISPLAY1 == *"LVDS"*) ]]; then
         echo "Embedded Display found"
+        
+        COMMAND="xrandr --output $DISPLAY1 --mode $RESOLUTION --primary --set 'scaling mode' Center --output $DISPLAY2 --mode $RESOLUTION --same-as $DISPLAY1"
+        echo "Executing: ${COMMAND}"
         echo ""
-        echo "exec xrandr --output $DISPLAY1 --mode $RESOLUTION --primary --set 'scaling mode' Center --output $DISPLAY2 --mode $RESOLUTION --same-as $DISPLAY1 &"
-        exec xrandr --output $DISPLAY1 --mode $RESOLUTION --primary --set 'scaling mode' Center --output $DISPLAY2 --mode $RESOLUTION --same-as $DISPLAY1 &
+        ${COMMAND}
     else
+        COMMAND="xrandr --output $DISPLAY1 --mode $RESOLUTION --primary $TRANSFORM --output $DISPLAY2 --mode $RESOLUTION --same-as $DISPLAY1 &"
+        echo "Executing: ${COMMAND}"
         echo ""
-        echo "exec xrandr --output $DISPLAY1 --mode $RESOLUTION --primary $TRANSFORM --output $DISPLAY2 --mode $RESOLUTION --same-as $DISPLAY1 &"
-        echo "All External Displays 1,2"
-        exec xrandr --output $DISPLAY1 --mode $RESOLUTION --primary $TRANSFORM --output $DISPLAY2 --mode $RESOLUTION --same-as $DISPLAY1 &
+        ${COMMAND}
     fi
     
 ## 2 SECONDARY DISPLAYS
@@ -130,40 +167,15 @@ then
     # convert string to array
     readarray -t DISPLAYS <<<"$DISPLAY2"
     
-    # ask user which one is the beamer
-    choice=$(kdialog --title "Displaysetup" --combobox "3 Ausgabegeräte gefunden! Bitte wählen sie die den Projektor" "${DISPLAYS[0]}" "${DISPLAYS[1]}" --default "${DISPLAYS[0]}");
-
-    if [ "$?" = 0 ]; then
-        if [ "$choice" = ${DISPLAYS[0]} ]; then
-            BEAMER=${DISPLAYS[0]}
-            SECONDMONITOR=${DISPLAYS[1]}
-            
-        elif [ "$choice" = ${DISPLAYS[1]} ]; then
-            BEAMER=${DISPLAYS[1]}
-            SECONDMONITOR=${DISPLAYS[0]}
-        else
-            kdialog --error "ERROR";
-            exit 0
-        fi;
-    elif [ "$?" = 1 ]; then
-        exit 0
-    else
-        kdialog --error "ERROR";
-        exit 0
-    fi;
-    
-    
-    echo "This should be your primary screen: ${DISPLAY1}"
-    echo "This should be your secondary screen: ${SECONDMONITOR} "
-    echo "This should be your third screen (Beamer): ${BEAMER}"
-    echo ""
-   
-
    # ask user for the preferred setup (clone, extend)
-    choice=$(kdialog --title "Displaysetup" --combobox "Bitte wählen sie die bevorzugte Einstellung" "Klonen" "Klonen + Erweitern rechts" "Klonen + Erweitern links" --default "Klonen");
+    choice=$(kdialog --title "Displaysetup" --combobox "3 Ausgabegeräte gefunden! Bitte wählen sie die bevorzugte Einstellung" "Klonen" "Klonen + Erweitern rechts" "Klonen + Erweitern links" --default "Klonen");
 
     if [ "$?" = 0 ]; then
         if [ "$choice" = 'Klonen' ]; then
+        
+            BEAMER=${DISPLAYS[0]}
+            SECONDMONITOR=${DISPLAYS[1]}
+    
             echo "Initialising: clone"
             echo ""
             
@@ -175,10 +187,13 @@ then
             fi
             
             echo "Executing: ${COMMAND}"
+            echo ""
             ${COMMAND}
             exit 0
             
         elif [ "$choice" = 'Klonen + Erweitern rechts' ]; then
+            askbeamer
+        
             echo "Initialising: clone + extend right"
             echo ""
             
@@ -193,10 +208,14 @@ then
             fi
             
             echo "Executing: ${COMMAND}"
+            echo ""
             ${COMMAND}
             exit 0
             
         elif [ "$choice" = 'Klonen + Erweitern links' ]; then
+            askbeamer
+        
+        
             echo "Initialising: clone + extend left"
             echo ""
              
@@ -211,6 +230,7 @@ then
             fi
             
             echo "Executing: ${COMMAND}"
+            echo ""
             ${COMMAND}
             exit 0
             
@@ -230,6 +250,11 @@ else  # ????
     echo "Schools don't use this kind of setup :-)"
     exit 0
 fi
+
+
+
+
+
 
 
 
