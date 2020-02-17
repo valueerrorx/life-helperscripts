@@ -8,6 +8,42 @@ BEAMER=""
 SECONDMONITOR=""
 
 
+####################################
+## GET DISPLAY IDENTIFIERS        ##
+####################################
+
+DISPLAY1=$(xrandr | grep -h "\sconnected" | grep primary| awk '{print $1}')
+DISPLAY2=$(xrandr | grep -h "\sconnected" | grep -v primary|awk '{print $1}')   #this could potentially deliver more than one line
+
+
+## NO SECONDARY DISPLAY 
+if [[ ( $DISPLAY2 = "" ) ]];
+then
+    echo "no secondary display found"
+    kdialog  --error 'Kein zweiter Bildschirm gefunden! Überprüfen sie die Steckverbindung.' --title 'Displaysetup'
+    exit 0
+fi
+
+
+
+
+kdialog  --warningcontinuecancel '
+Automatische Displaykonfiguration
+ 
+Falls dieser Vorgang fehlschlägt versuchen sie bitte Folgendes:
+ 
+Überprüfen sie die Steckverbindungen zwischen Projektor und PC.
+Überprüfen sie den Eingangskanal am Projektor!
+Starten sie notfalls den PC neu.
+ 
+' --title 'Beamer Setup'
+
+if [ "$?" = 0 ]; then
+    sleep 0
+else
+    exit 0 
+fi;
+
 
 
 askbeamer() {
@@ -40,22 +76,7 @@ askbeamer() {
 
 
 
-kdialog  --warningcontinuecancel '
-Automatische Displaykonfiguration
- 
-Falls dieser Vorgang fehlschlägt versuchen sie bitte Folgendes:
- 
-Überprüfen sie die Steckverbindungen zwischen Projektor und PC.
-Überprüfen sie den Eingangskanal am Projektor!
-Starten sie notfalls den PC neu.
- 
-' --title 'Beamer Setup'
 
-if [ "$?" = 0 ]; then
-    sleep 0
-else
-    exit 0 
-fi;
 
 
 
@@ -65,13 +86,8 @@ fi;
 ####################################
 
 DISPLAYCOUNT=$(xrandr --query | awk '/^ *[0-9]*x[0-9]*/{ print $1 }' | sort -n | uniq -d -c|head -n 1|awk '{print $1}')
+RESOLUTION=`xrandr --query | awk '/^ *[0-9]*x[0-9]*/{ print $1 }' | sort -n | uniq -d -c|grep -w ${DISPLAYCOUNT} |tail -1|awk '{print $2}'`
 
-if [[ ( $DISPLAYCOUNT = "" ) ]];
-then
-    RESOLUTION=`xrandr --query | awk '/^ *[0-9]*x[0-9]*/{ print $1 }' | sort -n | uniq -d -c`
-else
-    RESOLUTION=`xrandr --query | awk '/^ *[0-9]*x[0-9]*/{ print $1 }' | sort -n | uniq -d -c|grep -w ${DISPLAYCOUNT} |tail -1|awk '{print $2}'`
-fi
 
 
 
@@ -89,14 +105,6 @@ echo ""
 
 
 
-
-
-####################################
-## GET DISPLAY IDENTIFIERS        ##
-####################################
-
-DISPLAY1=$(xrandr | grep -h "\sconnected" | grep primary| awk '{print $1}')
-DISPLAY2=$(xrandr | grep -h "\sconnected" | grep -v primary|awk '{print $1}')   #this could potentially deliver more than one line
 
 
 
@@ -141,16 +149,11 @@ LINES=$(xrandr | grep -h "\sconnected" | grep -v primary|awk '{print $1}'|wc -l)
 ####################################
 
 
-## NO SECONDARY DISPLAY 
-if [[ ( $DISPLAY2 = "" ) ]];
-then
-    echo "no secondary display found"
-    kdialog  --error 'Kein zweiter Bildschirm gefunden! Überprüfen sie die Steckverbindung.' --title 'Displaysetup'
-    exit 0
+
  
  
 ## 1 SECONDARY DISPLAY
-elif [[ ( $LINES = "1" ) ]];  #2 Ausgabegeräte
+if [[ ( $LINES = "1" ) ]];  #2 Ausgabegeräte
 then  
     echo "This should be your primary screen: ${DISPLAY1}"
     echo "This should be your secondary screen ${DISPLAY2}"
@@ -164,7 +167,7 @@ then
         echo ""
         ${COMMAND}
     else
-        COMMAND="xrandr --output $DISPLAY1 --mode $RESOLUTION --primary $TRANSFORM --output $DISPLAY2 --mode $RESOLUTION --same-as $DISPLAY1 &"
+        COMMAND="xrandr --output $DISPLAY1 --mode $RESOLUTION --primary $TRANSFORM --output $DISPLAY2 --mode $RESOLUTION --same-as $DISPLAY1"
         echo "Executing: ${COMMAND}"
         echo ""
         ${COMMAND}
