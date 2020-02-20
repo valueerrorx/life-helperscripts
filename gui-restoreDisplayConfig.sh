@@ -176,7 +176,7 @@ fi
 #transform auf skylake killt kwin irgendwie und funktioniert nur für plasmashell - fenster bleiben über den ganzen screen BUG 
 #daher kann die transform option hier deaktiviert werdem (uncomment next line)
 
-#TRANSFORM=""
+TRANSFORM=""
 
 
 
