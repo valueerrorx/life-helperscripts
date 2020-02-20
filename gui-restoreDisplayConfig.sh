@@ -1,5 +1,5 @@
 #!/bin/bash
-# last update: 17.02.2020
+# last update: 20.02.2020
 # this file uses xrandr to setup the beamer to be a clone of the lcd screen
 # and kdialog for userinteraction
 
@@ -11,18 +11,52 @@ SECONDARY=""
 ####################################
 ## GET DISPLAY IDENTIFIERS        ##
 ####################################
+getDisplays() {
 
-PRIMARY=$(xrandr | grep -h "\sconnected" | grep primary| awk '{print $1}')
-OTHERDISPLAYS=$(xrandr | grep -h "\sconnected" | grep -v primary|awk '{print $1}')   #this could potentially deliver more than one line
+    PRIMARY=$(xrandr | grep -h "\sconnected" | grep primary| awk '{print $1}')  #if no primary display was configured EVER this will fail
+    OTHERDISPLAYS=$(xrandr | grep -h "\sconnected" | grep -v primary|awk '{print $1}')   #this could potentially deliver more than one line
+ 
+    ## COUNT DISPLAYS 
+    NUMBEROFSECONDARYDISPLAYS=$(xrandr | grep -h "\sconnected" | grep -v primary|awk '{print $1}'|wc -l)
+    PRIMARYDISPLAYS=$(xrandr | grep -h "\sconnected" | grep primary|awk '{print $1}'|wc -l)
+
+    ## CONVERT string to array
+    readarray -t DISPLAYS <<<"$OTHERDISPLAYS"
+}
+getDisplays
 
 
-####################################
-## COUNT EXTERNAL DISPLAYS        ##
-####################################
-
-NUMBEROFSECONDARYDISPLAYS=$(xrandr | grep -h "\sconnected" | grep -v primary|awk '{print $1}'|wc -l)
 
 
+
+askprimary() {
+    # ask user which one is the primary display
+    choice=$(kdialog --title "Displaysetup" --combobox "Bitte wählen sie die den Hauptbildschirm" "${DISPLAYS[0]}" "${DISPLAYS[1]}" "${DISPLAYS[2]}" --default "${DISPLAYS[0]}");
+
+    if [ "$?" = 0 ]; then
+        if [ "$choice" = ${DISPLAYS[0]} ]; then
+            PRIMARY=${DISPLAYS[0]}
+            
+        elif [ "$choice" = ${DISPLAYS[1]} ]; then
+            PRIMARY=${DISPLAYS[1]}
+          
+        elif [ "$choice" = ${DISPLAYS[2]} ]; then
+            PRIMARY=${DISPLAYS[2]}
+        else
+            kdialog --error "ERROR";
+            exit 0
+        fi;
+    elif [ "$?" = 1 ]; then
+        exit 0
+    else
+        kdialog --error "ERROR";
+        exit 0
+    fi;
+    echo "This should be your primary screen: ${PRIMARY}"
+    echo ""
+    xrandr --output $PRIMARY --primary
+    getDisplays
+}
 
 
 
@@ -33,8 +67,6 @@ then
     kdialog  --error 'Kein zweiter Bildschirm gefunden! Überprüfen sie die Steckverbindung.' --title 'Displaysetup'
     exit 0
 fi
-
-
 
 
 kdialog  --warningcontinuecancel '
@@ -53,6 +85,16 @@ if [ "$?" = 0 ]; then
 else
     exit 0 
 fi;
+
+
+
+## NO DISPLAY DECLARED AS PRIMARY
+if [[ ( $PRIMARYDISPLAYS = "0" ) && $NUMBEROFSECONDARYDISPLAYS = "3" ]];
+then
+    echo "no primary display found"
+    askprimary
+  
+fi
 
 
 
@@ -98,9 +140,6 @@ askbeamer() {
 DISPLAYCOUNT=$(xrandr --query | awk '/^ *[0-9]*x[0-9]*/{ print $1 }' | sort -n | uniq -d -c|head -n 1|awk '{print $1}')
 RESOLUTION=`xrandr --query | awk '/^ *[0-9]*x[0-9]*/{ print $1 }' | sort -n | uniq -d -c|grep -w ${DISPLAYCOUNT} |tail -1|awk '{print $2}'`
 
-
-
-
 # if something went wrong default to 1024x768
 COMMON=$( echo $RESOLUTION | grep x | wc -l )    # check for the x in 800x600
 if [ $COMMON == "0" ];
@@ -111,9 +150,6 @@ fi
 
 echo "BIGGEST COMMON RESOLUTION IS SET TO: $RESOLUTION "
 echo ""
-
-
-
 
 
 
@@ -178,9 +214,7 @@ then
 ## 2 SECONDARY DISPLAYS
 elif [[ ( $NUMBEROFSECONDARYDISPLAYS = "2" ) ]];  #3 Ausgabegeräte
 then
-    # convert string to array
-    readarray -t DISPLAYS <<<"$OTHERDISPLAYS"
-    
+      
    # ask user for the preferred setup (clone, extend)
     choice=$(kdialog --title "Displaysetup" --combobox "3 Ausgabegeräte gefunden! Bitte wählen sie die bevorzugte Einstellung" "Klonen" "Klonen + Erweitern rechts" "Klonen + Erweitern links" --default "Klonen");
 
