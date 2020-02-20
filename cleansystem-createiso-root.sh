@@ -28,6 +28,13 @@ rm /home/student/.life/EXAM/client.log > /dev/null 2>&1
 rm /home/student/.local/share/RecentDocuments/*  > /dev/null 2>&1
 rm /home/student/.kde/share/apps/RecentDocuments/*  > /dev/null 2>&1
 
+echo "" |sudo tee /var/log/syslog
+sudo rm /var/cache/apt/srcpkgcache.bin /var/cache/apt/pkgcache.bin
+sudo rm -r /var/lib/apt/lists/*
+
+journalctl --vacuum-time=1000d
+
+
 echo "EXAM workfolder so changes in source will take effekt"
 rm -r /home/student/.life/EXAM/ > /dev/null 2>&1
 
