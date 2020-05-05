@@ -23,6 +23,10 @@ echo "removing cache files"
 sudo rm /var/tmp/kdecache-root/*  > /dev/null 2>&1
 sudo rm /var/tmp/kdecache-student/* > /dev/null 2>&1
 sudo rm /var/crash/* > /dev/null 2>&1
+
+sudo rm /var/lib/snapd/cache/ -r > /dev/null 2>&1
+
+
 rm /home/student/.xsession-errors
 rm /home/student/.life/EXAM/client.log > /dev/null 2>&1
 rm /home/student/.local/share/RecentDocuments/*  > /dev/null 2>&1
@@ -42,7 +46,7 @@ rm -r /home/student/.life/EXAM/ > /dev/null 2>&1
 echo "cleaning bash history"
 history -w
 history -c
-rm /home/student/.bash_history
+rm /home/student/.bash_history > /dev/null 2>&1
 
 
 
