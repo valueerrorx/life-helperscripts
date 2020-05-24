@@ -52,7 +52,7 @@ rm /home/student/.bash_history > /dev/null 2>&1
 
 echo "starting bleachbit as root and as user"
 #cleaning all necessary stuff
-sudo bleachbit > /dev/null 2>&1
+# 	sudo bleachbit > /dev/null 2>&1
 
 LIST='adobe_reader|amsn|amule|apt|audacious|bash|d4x|epiphany|evolution|filezilla|flash|gwenview|journald|kde|libreoffice|liferea|midnightcommander|nautilus|openofficeorg|opera|thunderbird|x11|yum'
 SLIST='system.trash|system.cache|system.clipboard|system.recent_documents|system.rotated_logs|system.tmp'
