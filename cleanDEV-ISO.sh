@@ -3,10 +3,7 @@
 sudo rm -r -v /home/student/.p2
 sudo rm -r -v /home/student/.atom
 sudo rm -r -v /home/student/eclipse-workspace
-sudo rm -r -v /home/student/Downloads/LIFE-DEV/Backup/
-sudo rm -r -v /home/student/Downloads/LIFE-DEV/bin/
-sudo rm -r -v /home/student/Downloads/LIFE-DEV/eclipse/
-sudo rm -r -v /home/student/Downloads/LIFE-DEV/eclipse-installer/
+sudo rm -r -v /home/student/Downloads/*
 sudo rm -r -v /home/student/.local/share/TelegramDesktop
 sudo rm -r -v /home/student/snap/
 
