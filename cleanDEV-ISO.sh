@@ -20,8 +20,11 @@ apt -y purge atom
 apt -y autoclean
 apt -y autoremove
 
-# telegram
+# telegram vai snap
 snap remove telegram-dektop
+
+# apt
+apt -y purge telegram-desktop snapd
 
 
 #call original cleanNBuild
