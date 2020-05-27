@@ -82,7 +82,7 @@ exec /home/student/.life/applications/helperscripts/desktop-backup.sh &
 
 
 echo "Start System Imager"
-pkxexec /home/student/.life/applications/life-builder/main.py &
+sudo /home/student/.life/applications/life-builder/main.py &
 history -w
 history -c
 exit
