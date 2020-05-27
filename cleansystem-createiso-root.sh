@@ -7,9 +7,9 @@ echo "----------------------------- "
 echo "  cleaning system  "
 echo "----------------------------- "
 
-sudo apt-get clean
-sudo apt-get autoclean
-sudo apt-get autoremove
+sudo apt-get -y clean
+sudo apt-get -y autoclean
+sudo apt-get -y autoremove
 
 
 echo "copy firststartwizard to autostart folder"
