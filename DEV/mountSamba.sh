@@ -1,9 +1,7 @@
 #!/bin/bash
-
 # mount the final ISO Build via Samba
 
 FILE=/etc/samba/smb.conf
-
 
 cat >> ${FILE} <<EOL
 
