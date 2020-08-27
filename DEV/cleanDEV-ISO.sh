@@ -2,15 +2,15 @@
 #cleaning Development Environment and Build ISO File
 
 # atom
-apt -y purge atom
-apt -y autoclean
-apt -y autoremove
+sudo apt -y purge atom
+sudo apt -y autoclean
+sudo apt -y autoremove
 
-# telegram vai snap
+# telegram via snap as user student
 snap remove telegram-dektop
 
 # apt
-apt -y purge telegram-desktop snapd
+sudo apt -y purge telegram-desktop snapd
 
 sudo rm -r -v /home/student/.p2
 sudo rm -r -v /home/student/.atom
