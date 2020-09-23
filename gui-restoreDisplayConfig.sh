@@ -200,12 +200,12 @@ then
     if [[ ( $PRIMARY == *"eDP"*) ||  ( $PRIMARY == *"LVDS"*) ]]; then
         echo "Embedded Display found"
         
-        COMMAND="xrandr --output $PRIMARY --mode $RESOLUTION --primary --set 'scaling mode' Center --output $SECONDARY --mode $RESOLUTION --same-as $PRIMARY"
+        COMMAND="xrandr --output $PRIMARY --mode $RESOLUTION  --rate 60.00 --primary --output $SECONDARY --mode $RESOLUTION --same-as $PRIMARY"
         echo "Executing: ${COMMAND}"
         echo ""
         ${COMMAND}
     else
-        COMMAND="xrandr --output $PRIMARY --mode $RESOLUTION --primary $TRANSFORM --output $SECONDARY --mode $RESOLUTION --same-as $PRIMARY"
+        COMMAND="xrandr --output $PRIMARY --mode $RESOLUTION  --rate 60.00 --primary $TRANSFORM --output $SECONDARY --mode $RESOLUTION --same-as $PRIMARY"
         echo "Executing: ${COMMAND}"
         echo ""
         ${COMMAND}
@@ -229,9 +229,9 @@ then
             
             if [[ ( $PRIMARY == *"eDP"*) ||  ( $PRIMARY == *"LVDS"*) ]]; then
                 echo "Embedded Display found"
-                COMMAND="xrandr --output $PRIMARY --mode $RESOLUTION --primary --set 'scaling mode' Center --output ${BEAMER} --mode $RESOLUTION --same-as $PRIMARY --output ${SECONDARY} --mode $RESOLUTION --same-as $PRIMARY"
+                COMMAND="xrandr --output $PRIMARY --mode $RESOLUTION --rate 60.00 --primary --output ${BEAMER} --mode $RESOLUTION --rate 60.00 --same-as $PRIMARY --output ${SECONDARY} --mode $RESOLUTION --same-as $PRIMARY"
             else
-                COMMAND="xrandr --output $PRIMARY --mode $RESOLUTION --primary $TRANSFORM --output ${BEAMER} --mode $RESOLUTION --same-as $PRIMARY --output ${SECONDARY} --mode $RESOLUTION --same-as $PRIMARY"
+                COMMAND="xrandr --output $PRIMARY --mode $RESOLUTION --rate 60.00 --primary $TRANSFORM --output ${BEAMER} --mode $RESOLUTION --rate 60.00 --same-as $PRIMARY --output ${SECONDARY} --mode $RESOLUTION --same-as $PRIMARY"
             fi
             
             echo "Executing: ${COMMAND}"
@@ -250,7 +250,7 @@ then
             
             if [[ ( $PRIMARY == *"eDP"*) ||  ( $PRIMARY == *"LVDS"*) ]]; then
                 echo "Embedded Display found"
-                COMMAND="xrandr --output $PRIMARY --mode $RESOLUTION --primary --set 'scaling mode' Center --output ${BEAMER} --mode $RESOLUTION --same-as $PRIMARY --output ${SECONDARY} --mode $SECONDARYSCREENRES --right-of $PRIMARY"
+                COMMAND="xrandr --output $PRIMARY --mode $RESOLUTION --primary --output ${BEAMER} --mode $RESOLUTION --same-as $PRIMARY --output ${SECONDARY} --mode $SECONDARYSCREENRES --right-of $PRIMARY"
             else
                 COMMAND="xrandr --output $PRIMARY --mode $RESOLUTION --primary $TRANSFORM --output ${BEAMER} --mode $RESOLUTION --same-as $PRIMARY --output ${SECONDARY} --mode $SECONDARYSCREENRES --right-of $PRIMARY"
             fi
@@ -272,7 +272,7 @@ then
             
             if [[ ( $PRIMARY == *"eDP"*) ||  ( $PRIMARY == *"LVDS"*) ]]; then
                 echo "Embedded Display found"
-                COMMAND="xrandr --output $PRIMARY --mode $RESOLUTION --primary --set 'scaling mode' Center --output ${BEAMER} --mode $RESOLUTION --same-as $PRIMARY --output ${SECONDARY} --mode $SECONDARYSCREENRES --left-of $PRIMARY"
+                COMMAND="xrandr --output $PRIMARY --mode $RESOLUTION --primary --output ${BEAMER} --mode $RESOLUTION --same-as $PRIMARY --output ${SECONDARY} --mode $SECONDARYSCREENRES --left-of $PRIMARY"
             else
                 COMMAND="xrandr --output $PRIMARY --mode $RESOLUTION --primary $TRANSFORM --output ${BEAMER} --mode $RESOLUTION --same-as $PRIMARY --output ${SECONDARY} --mode $SECONDARYSCREENRES --left-of $PRIMARY"
             fi
