@@ -23,6 +23,9 @@ sudo rm -r -v /home/student/.cache/mozilla/
 sudo rm -r -v /home/student/.mozilla/
 sudo rm -r -v /home/student/.config/libreoffice
 
+# git
+sudo rm -v /home/student/.gitconfig
+
 find /home/student/ -type d -regextype sed -iregex ".*/[\.]*kite" -exec rm -r -v {} \;
 find /home/student/ -type d -regextype sed -iregex ".*/[\.]*eclipse" -exec rm -r -v {} \;
 find /home/student/ -type d -regextype sed -iregex ".*/[\.]*atom" -exec rm -r -v {} \;
