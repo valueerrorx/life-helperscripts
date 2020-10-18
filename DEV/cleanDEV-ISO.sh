@@ -21,6 +21,22 @@ sudo rm -r -v /home/student/snap/
 
 sudo rm -r -v /home/student/.cache/mozilla/
 sudo rm -r -v /home/student/.mozilla/
+sudo rm -r -v /home/student/.config/libreoffice
+
+# git
+sudo rm -v /home/student/.gitconfig
+
+# git back to https
+cd /home/student/.life/applications/life-update
+git remote set-url origin https://github.com/valueerrorx/life-update.git
+cd /home/student/.life/applications/life-exam
+git remote set-url origin https://github.com/valueerrorx/life-exam.git
+cd /home/student/.life/applications/helperscripts
+git remote set-url origin https://github.com/life-helperscripts.git
+cd /home/student/.life/applications/life-builder
+git remote set-url origin https://github.com/life-builder.git
+
+
 
 find /home/student/ -type d -regextype sed -iregex ".*/[\.]*kite" -exec rm -r -v {} \;
 find /home/student/ -type d -regextype sed -iregex ".*/[\.]*eclipse" -exec rm -r -v {} \;
