@@ -9,13 +9,13 @@ HOME="/home/${USER}/"
 echo "Deleting all personal files (for public computers)"
 #
 
-MOUNTCHECK=$(df -h |grep Downloads | wc -l) 
+MOUNTCHECK=$(df -h |grep Dokumente | wc -l) 
 
 if test $MOUNTCHECK = "1" 
 then
-    echo "Skipping Downloads because of mounted device"
+    echo "Skipping Folder Documents because a device is mounted there..."
 else
-    rm -r $HOME/Downloads/*
+    rm -r $HOME/Dokumente/*
 fi
  
  
@@ -24,6 +24,13 @@ fi
 rm $HOME/*
 rm $HOME/.local/share/RecentDocuments/*
 rm $HOME/.kde/share/apps/RecentDocuments/*
+rm $HOME/.xsession-errors
+
+echo "clear clipboard history"
+qdbus org.kde.klipper /klipper org.kde.klipper.klipper.clearClipboardHistory
+qdbus org.kde.klipper /klipper org.kde.klipper.klipper.clearClipboardContents
+
+
 
 
 #
