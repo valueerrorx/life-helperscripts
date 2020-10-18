@@ -68,7 +68,9 @@ echo "clear bash history"
 history -w
 history -c
 
-
+#SSH
+sudo rm -r -v /home/student/.ssh
+sudo rm -r -v /root/.ssh
 
 echo "clear clipboard history"
 qdbus org.kde.klipper /klipper org.kde.klipper.klipper.clearClipboardHistory
