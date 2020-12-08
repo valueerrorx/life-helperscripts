@@ -60,4 +60,4 @@ sudo rm -r -v /root/.ssh
 
 
 #call original cleanNBuild
-#sudo /home/student/.life/applications/helperscripts/cleansystem-createiso-root.sh
+sudo /home/student/.life/applications/helperscripts/cleansystem-createiso-root.sh
