@@ -84,7 +84,7 @@ sh /home/student/.life/applications/helperscripts/desktop-backup.sh &
 
 
 echo "Start System Imager"
-sudo /home/student/.life/applications/life-builder/main.py &
+sudo -E /home/student/.life/applications/life-builder/main.py &
 history -w
 history -c
 exit
