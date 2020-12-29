@@ -1,6 +1,8 @@
 #!/bin/bash
 #cleaning Development Environment and Build ISO File
 
+cp /home/student/.life/applications/helperscripts/DEV/.bashrc_student /home/student/.bashrc
+
 # atom
 sudo apt -y purge atom
 sudo apt -y autoclean
