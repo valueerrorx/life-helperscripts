@@ -1,7 +1,7 @@
 #!/bin/bash
 #cleaning Development Environment and Build ISO File
 
-cp /home/student/.life/applications/helperscripts/DEV/.bashrc_student /home/student/.bashrc
+cp /home/student/.life/applications/life-helperscripts/DEV/.bashrc_student /home/student/.bashrc
 
 # atom
 sudo apt -y purge atom
@@ -62,4 +62,4 @@ sudo rm -r -v /root/.ssh
 
 
 #call original cleanNBuild
-sudo /home/student/.life/applications/helperscripts/cleansystem-createiso-root.sh
+sudo /home/student/.life/applications/life-helperscripts/cleansystem-createiso-root.sh
