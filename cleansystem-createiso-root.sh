@@ -78,7 +78,7 @@ qdbus org.kde.klipper /klipper org.kde.klipper.klipper.clearClipboardContents
 
 
 echo "Backup Desktop Configuration "
-sh /home/student/.life/applications/helperscripts/desktop-backup.sh &
+sh /home/student/.life/applications/life-helperscripts/desktop-backup.sh &
 
 
 
