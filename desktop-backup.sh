@@ -14,21 +14,21 @@ qdbus $progress Set "" value 1
 qdbus $progress setLabelText "Sichere kde.config ...."
 mkdir ${BACKUPDIR}/kde.config/ > /dev/null 2>&1
 #.kde/share/config/
-rsync -avzh --exclude-from=/home/student/.life/applications/helperscripts/excludelist --delete-excluded --ignore-errors ${HOME}.kde/share/config/* ${BACKUPDIR}/kde.config/ --delete
+rsync -avzh --exclude-from=/home/student/.life/applications/life-helperscripts/excludelist --delete-excluded --ignore-errors ${HOME}.kde/share/config/* ${BACKUPDIR}/kde.config/ --delete
 
 
 qdbus $progress Set "" value 2
 qdbus $progress setLabelText "Sichere .config ...."
 mkdir ${BACKUPDIR}/home.config/ > /dev/null 2>&1
 #.config
-rsync -avzh --exclude-from=/home/student/.life/applications/helperscripts/excludelist --delete-excluded --ignore-errors ${HOME}.config/* ${BACKUPDIR}/home.config/ --delete
+rsync -avzh --exclude-from=/home/student/.life/applications/life-helperscripts/excludelist --delete-excluded --ignore-errors ${HOME}.config/* ${BACKUPDIR}/home.config/ --delete
 
 
 qdbus $progress Set "" value 3
 qdbus $progress setLabelText "Sichere .local ...."
 mkdir ${BACKUPDIR}/home.local/ > /dev/null 2>&1
 #.local
-rsync -avzh --exclude-from=/home/student/.life/applications/helperscripts/excludelist --delete-excluded --ignore-errors ${HOME}.local/* ${BACKUPDIR}/home.local/ --delete
+rsync -avzh --exclude-from=/home/student/.life/applications/life-helperscripts/excludelist --delete-excluded --ignore-errors ${HOME}.local/* ${BACKUPDIR}/home.local/ --delete
 
 
 qdbus $progress Set "" value 4
