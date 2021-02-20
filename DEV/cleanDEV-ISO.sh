@@ -8,6 +8,17 @@ sudo apt -y purge atom
 sudo apt -y autoclean
 sudo apt -y autoremove
 
+# restore
+cp .bashrc_student /home/student
+rm /home/student/.bashrc
+mv /home/student/.bashrc_student /home/student/.bashrc
+
+tar xvfz 80fj2lnv.Student.tar.gz
+sudo rm -r -v /home/student/.mozilla/firefox/wylpy3go.Main/*
+sudo cp -r 80fj2lnv.Student/* /home/student/.mozilla/firefox/wylpy3go.Main/
+sudo chown -R student:student /home/student/.mozilla/firefox/wylpy3go.Main/
+rm -r 80fj2lnv.Student/
+
 # telegram via snap as user student
 snap remove telegram-dektop
 
@@ -23,7 +34,7 @@ sudo rm -r -v /home/student/.local/share/TelegramDesktop
 sudo rm -r -v /home/student/snap/
 
 sudo rm -r -v /home/student/.cache/mozilla/
-sudo rm -r -v /home/student/.mozilla/
+
 sudo rm -r -v /home/student/.config/libreoffice
 
 # git
