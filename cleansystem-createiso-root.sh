@@ -1,8 +1,6 @@
 #!/bin/bash
 clear
 
-USER=$(logname)
-
 echo "----------------------------- "
 echo "  cleaning system  "
 echo "----------------------------- "
@@ -43,20 +41,13 @@ journalctl --vacuum-time=1000d
 echo "EXAM workfolder so changes in source will take effekt"
 rm -r /home/student/.life/EXAM/ > /dev/null 2>&1
 
-
-echo "cleaning bash history"
-history -w
-history -c
-rm /home/student/.bash_history > /dev/null 2>&1
-
-
-echo "starting bleachbit as root and as user"
+echo "starting bleachbit"
 
 LIST='adobe_reader|amsn|amule|audacious|bash|d4x|epiphany|evolution|filezilla|flash|gwenview|journald|kde|libreoffice|liferea|midnightcommander|nautilus|openofficeorg|opera|thunderbird|x11|yum'
-SLIST='system.trash|system.cache|system.clipboard|system.recent_documents|system.rotated_logs|system.tmp'
+SLIST='system.trash|system.clipboard|system.recent_documents|system.rotated_logs'
 
-sudo -u ${USER} -H bleachbit --list | grep -E "[a-z0-9_\-]+\.[a-z0-9_\-]+" | grep -E ${LIST} | sudo -u ${USER} -H xargs bleachbit --clean
-sudo -u ${USER} -H bleachbit --list | grep -E "[a-z0-9_\-]+\.[a-z0-9_\-]+" | grep -E ${SLIST} | sudo -u ${USER} -H xargs bleachbit --clean
+sudo -u student -H bleachbit --list | grep -E "[a-z0-9_\-]+\.[a-z0-9_\-]+" | grep -E ${LIST} | sudo -u student -H xargs bleachbit --clean
+sudo -u student -H bleachbit --list | grep -E "[a-z0-9_\-]+\.[a-z0-9_\-]+" | grep -E ${SLIST} | sudo -u student -H xargs bleachbit --clean
 
 sudo bleachbit --list | grep -E "[a-z0-9_\-]+\.[a-z0-9_\-]+" | grep -E ${LIST} | sudo xargs bleachbit --clean
 sudo bleachbit --list | grep -E "[a-z0-9_\-]+\.[a-z0-9_\-]+" | grep -E ${SLIST} | sudo xargs bleachbit --clean
@@ -66,25 +57,20 @@ echo "----------------------------------------------------"
 echo "clear bash history"
 history -w
 history -c
+rm /home/student/.bash_history > /dev/null 2>&1
 
 #SSH
 sudo rm -r -v /home/student/.ssh
 sudo rm -r -v /root/.ssh
 
-echo "clear clipboard history"
-qdbus org.kde.klipper /klipper org.kde.klipper.klipper.clearClipboardHistory
-qdbus org.kde.klipper /klipper org.kde.klipper.klipper.clearClipboardContents
-
-
 
 echo "Backup Desktop Configuration "
-sh /home/student/.life/applications/life-helperscripts/desktop-backup.sh &
-
+sudo -u student sh /home/student/.life/applications/life-helperscripts/desktop-backup.sh &
 
 
 echo "Start System Imager"
 sudo -E /home/student/.life/applications/life-builder/main.py &
 history -w
 history -c
-exit
+
 exit 0

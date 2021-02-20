@@ -1,6 +1,6 @@
 #!/bin/bash
 
-USER=$(logname)  
+USER=student
 HOME="/home/${USER}/"
 BACKUPDIR="${HOME}.life/systemrestore/"
 
