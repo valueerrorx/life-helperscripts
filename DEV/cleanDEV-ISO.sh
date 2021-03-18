@@ -1,6 +1,11 @@
 #!/bin/bash
 #cleaning Development Environment and Build ISO File
 
+
+# Disable VirtualBox Services
+sudo systemctl disable vboxadd-service.service
+sudo systemctl disablevboxadd.service 
+
 sudo chown -R student:student /home/student/
 
 # restore
