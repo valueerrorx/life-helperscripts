@@ -2,9 +2,9 @@
 #cleaning Development Environment and Build ISO File
 
 
-# Disable VirtualBox Services
-sudo systemctl disable vboxadd-service.service
-sudo systemctl disablevboxadd.service 
+# Uninstall VirtualBox Services
+VBOX=`find /opt -maxdepth 1 -iname "vbox*"`
+sudo sh $VBOX/uninstall.sh
 
 sudo chown -R student:student /home/student/
 
