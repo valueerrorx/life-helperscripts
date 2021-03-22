@@ -5,7 +5,7 @@ HOME="/home/${USER}/"
 BACKUPDIR="${HOME}.life/systemrestore/"
 
 ## start progress with a lot of spaces (defines the width of the window - using geometry will move the window out of the center)
-progress=$(kdialog --progressbar "Sichere Daten...                                                               ");
+progress=$(kdialog --progressbar "Sichere Daten...   ");
 qdbus $progress Set "" maximum 5
 sleep 0.5
 
