@@ -55,9 +55,9 @@ git remote set-url origin https://github.com/valueerrorx/life-update.git
 cd /home/student/.life/applications/life-exam
 git remote set-url origin https://github.com/valueerrorx/life-exam.git
 cd /home/student/.life/applications/life-helperscripts
-git remote set-url origin https://github.com/life-helperscripts.git
+git remote set-url origin https://github.com/valueerrorx/life-helperscripts.git
 cd /home/student/.life/applications/life-builder
-git remote set-url origin https://github.com/life-builder.git
+git remote set-url origin https://github.com/valueerrorx/life-builder.git
 
 
 
