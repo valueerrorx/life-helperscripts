@@ -9,6 +9,9 @@ sudo apt-get -y clean
 sudo apt-get -y autoclean
 sudo apt-get -y autoremove
 
+# Uninstall VirtualBox Services
+VBOX=`find /opt -maxdepth 1 -iname "vbox*"`
+sudo sh $VBOX/uninstall.sh
 
 echo "copy firststartwizard to autostart folder"
 cp /home/student/.life/applications/life-firststart/firststart.sh /home/student/.config/autostart-scripts/
