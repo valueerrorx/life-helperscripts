@@ -1,6 +1,12 @@
 #!/bin/bash
 #cleaning Development Environment and Build ISO File
 
+# update Maxima2School
+cd /home/student/.maxima/Maxima2School
+git pull
+# copy to global search_path
+cp InitMaxima.mac ../
+
 
 # Uninstall VirtualBox Services
 VBOX=`find /opt -maxdepth 1 -iname "vbox*"`
