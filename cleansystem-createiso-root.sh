@@ -9,6 +9,9 @@ sudo apt-get -y clean
 sudo apt-get -y autoclean
 sudo apt-get -y autoremove
 
+# Uninstall VirtualBox Services
+VBOX=`find /opt -maxdepth 1 -iname "vbox*"`
+sudo sh $VBOX/uninstall.sh
 
 echo "copy firststartwizard to autostart folder"
 cp /home/student/.life/applications/life-firststart/firststart.sh /home/student/.config/autostart-scripts/
@@ -38,19 +41,20 @@ sudo rm -r /var/lib/apt/lists/*
 journalctl --vacuum-time=1000d
 
 
-echo "EXAM workfolder so changes in source will take effekt"
-rm -r /home/student/.life/EXAM/ > /dev/null 2>&1
+echo "Removing EXAM workfolder so changes in source will take effekt"
+sudo rm -r /home/student/.life/EXAM/ > /dev/null 2>&1
+
+
 
 echo "starting bleachbit"
 
 LIST='adobe_reader|amsn|amule|audacious|bash|d4x|epiphany|evolution|filezilla|flash|gwenview|journald|kde|libreoffice|liferea|midnightcommander|nautilus|openofficeorg|opera|thunderbird|x11|yum'
 SLIST='system.trash|system.clipboard|system.recent_documents|system.rotated_logs'
 
+
 sudo -u student -H bleachbit --list | grep -E "[a-z0-9_\-]+\.[a-z0-9_\-]+" | grep -E ${LIST} | sudo -u student -H xargs bleachbit --clean
 sudo -u student -H bleachbit --list | grep -E "[a-z0-9_\-]+\.[a-z0-9_\-]+" | grep -E ${SLIST} | sudo -u student -H xargs bleachbit --clean
 
-sudo bleachbit --list | grep -E "[a-z0-9_\-]+\.[a-z0-9_\-]+" | grep -E ${LIST} | sudo xargs bleachbit --clean
-sudo bleachbit --list | grep -E "[a-z0-9_\-]+\.[a-z0-9_\-]+" | grep -E ${SLIST} | sudo xargs bleachbit --clean
 
 echo ""
 echo "----------------------------------------------------"

@@ -1,6 +1,7 @@
 #!/bin/bash
 #cleaning Development Environment and Build ISO File
 
+<<<<<<< HEAD
 # update Maxima2School
 cd /home/student/.maxima/Maxima2School
 git pull
@@ -12,6 +13,8 @@ cp InitMaxima.mac ../
 VBOX=`find /opt -maxdepth 1 -iname "vbox*"`
 sudo sh $VBOX/uninstall.sh
 
+=======
+>>>>>>> 646d9d0460532a927fde7060f843a524a7f014ed
 sudo chown -R student:student /home/student/
 
 # restore
