@@ -30,7 +30,7 @@ fi;
 
 
 ## start progress with a lot of spaces (defines the width of the window - using geometry will move the window out of the center)
-progress=$(sudo -H -u ${USER} kdialog --progressbar "Stelle gesicherte Konfiguration wieder her...                                                               ");
+progress=$(sudo -H -u ${USER} kdialog --progressbar "Stelle gesicherte Konfiguration wieder her...   ");
 sudo -H -u ${USER} qdbus $progress Set "" maximum 5
 sleep 0.5
 

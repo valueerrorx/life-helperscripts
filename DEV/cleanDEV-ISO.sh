@@ -1,10 +1,32 @@
 #!/bin/bash
 #cleaning Development Environment and Build ISO File
 
+
+# Uninstall VirtualBox Services
+VBOX=`find /opt -maxdepth 1 -iname "vbox*"`
+sudo sh $VBOX/uninstall.sh
+
+sudo chown -R student:student /home/student/
+
+# restore
+cp /home/student/.life/applications/life-helperscripts/DEV/.bashrc_student /home/student
+rm /home/student/.bashrc
+mv /home/student/.bashrc_student /home/student/.bashrc
+sudo chown student:student /home/student/.bashrc
+
+cd /home/student/.life/applications/life-helperscripts/DEV/
+tar xvfz 80fj2lnv.Student.tar.gz
+sudo rm -r -v /home/student/.mozilla/firefox/wylpy3go.Main/*
+sudo cp -r 80fj2lnv.Student/* /home/student/.mozilla/firefox/wylpy3go.Main/
+sudo chown -R student:student /home/student/.mozilla/firefox/wylpy3go.Main/
+rm -r 80fj2lnv.Student/
+
+
 # atom
 sudo apt -y purge atom
 sudo apt -y autoclean
 sudo apt -y autoremove
+
 
 # telegram via snap as user student
 snap remove telegram-dektop
@@ -14,13 +36,14 @@ sudo apt -y purge telegram-desktop snapd
 
 sudo rm -r -v /home/student/.p2
 sudo rm -r -v /home/student/.atom
+sudo rm -r -v /home/student/.pylint.d
 sudo rm -r -v /home/student/eclipse-workspace
 
 sudo rm -r -v /home/student/.local/share/TelegramDesktop
 sudo rm -r -v /home/student/snap/
 
 sudo rm -r -v /home/student/.cache/mozilla/
-sudo rm -r -v /home/student/.mozilla/
+
 sudo rm -r -v /home/student/.config/libreoffice
 
 # git
@@ -31,10 +54,10 @@ cd /home/student/.life/applications/life-update
 git remote set-url origin https://github.com/valueerrorx/life-update.git
 cd /home/student/.life/applications/life-exam
 git remote set-url origin https://github.com/valueerrorx/life-exam.git
-cd /home/student/.life/applications/helperscripts
-git remote set-url origin https://github.com/life-helperscripts.git
+cd /home/student/.life/applications/life-helperscripts
+git remote set-url origin https://github.com/valueerrorx/life-helperscripts.git
 cd /home/student/.life/applications/life-builder
-git remote set-url origin https://github.com/life-builder.git
+git remote set-url origin https://github.com/valueerrorx/life-builder.git
 
 
 
@@ -60,4 +83,4 @@ sudo rm -r -v /root/.ssh
 
 
 #call original cleanNBuild
-sudo /home/student/.life/applications/helperscripts/cleansystem-createiso-root.sh
+sudo /home/student/.life/applications/life-helperscripts/cleansystem-createiso-root.sh
