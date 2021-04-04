@@ -12,8 +12,8 @@ sudo apt-get -y autoclean
 sudo apt-get -y autoremove
 
 
-echo "copy firststartwizard to autostart folder"
-cp /home/student/.life/applications/life-firststart/firststart.sh /home/student/.config/autostart-scripts/
+#echo "copy firststartwizard to autostart folder"
+#cp /home/student/.life/applications/life-firststart/firststart.sh /home/student/.config/autostart-scripts/
 
 
 echo "removing cache files"
@@ -40,8 +40,8 @@ sudo rm -r /var/lib/apt/lists/*
 journalctl --vacuum-time=1000d
 
 
-echo "EXAM workfolder so changes in source will take effekt"
-rm -r /home/student/.life/EXAM/ > /dev/null 2>&1
+echo "Removing EXAM workfolder so changes in source will take effekt"
+sudo rm -r /home/student/.life/EXAM/ > /dev/null 2>&1
 
 
 echo "cleaning bash history"
@@ -50,17 +50,17 @@ history -c
 rm /home/student/.bash_history > /dev/null 2>&1
 
 
-echo "starting bleachbit as root and as user"
+#echo "starting bleachbit as root and as user"
 
 
 LIST='adobe_reader|amsn|amule|audacious|bash|d4x|epiphany|evolution|filezilla|flash|gwenview|journald|kde|libreoffice|liferea|midnightcommander|nautilus|openofficeorg|opera|thunderbird|x11|yum'
 SLIST='system.trash|system.cache|system.clipboard|system.recent_documents|system.rotated_logs|system.tmp'
 
-sudo -u ${USER} -H bleachbit --list | grep -E "[a-z0-9_\-]+\.[a-z0-9_\-]+" | grep -E ${LIST} | sudo -u ${USER} -H xargs bleachbit --clean
-sudo -u ${USER} -H bleachbit --list | grep -E "[a-z0-9_\-]+\.[a-z0-9_\-]+" | grep -E ${SLIST} | sudo -u ${USER} -H xargs bleachbit --clean
+#sudo -u ${USER} -H bleachbit --list | grep -E "[a-z0-9_\-]+\.[a-z0-9_\-]+" | grep -E ${LIST} | sudo -u ${USER} -H xargs bleachbit --clean
+#sudo -u ${USER} -H bleachbit --list | grep -E "[a-z0-9_\-]+\.[a-z0-9_\-]+" | grep -E ${SLIST} | sudo -u ${USER} -H xargs bleachbit --clean
 
-sudo bleachbit --list | grep -E "[a-z0-9_\-]+\.[a-z0-9_\-]+" | grep -E ${LIST} | sudo xargs bleachbit --clean
-sudo bleachbit --list | grep -E "[a-z0-9_\-]+\.[a-z0-9_\-]+" | grep -E ${SLIST} | sudo xargs bleachbit --clean
+#sudo bleachbit --list | grep -E "[a-z0-9_\-]+\.[a-z0-9_\-]+" | grep -E ${LIST} | sudo xargs bleachbit --clean
+#sudo bleachbit --list | grep -E "[a-z0-9_\-]+\.[a-z0-9_\-]+" | grep -E ${SLIST} | sudo xargs bleachbit --clean
 
 echo ""
 echo "----------------------------------------------------"
@@ -79,7 +79,7 @@ qdbus org.kde.klipper /klipper org.kde.klipper.klipper.clearClipboardContents
 
 
 echo "Backup Desktop Configuration "
-sh /home/student/.life/applications/helperscripts/desktop-backup.sh &
+#sh /home/student/.life/applications/helperscripts/desktop-backup.sh &
 
 
 
