@@ -2,6 +2,14 @@
 #cleaning Development Environment and Build ISO File
 
 # update Maxima2School
+if [ ! -d "/home/student/.maxima/Maxima2School" ]; then
+  # Control will enter here if $DIRECTORY exists.
+  echo "NO"
+  mkdir -p /home/student/.maxima/Maxima2School
+  cd /home/student/.maxima/Maxima2School
+  git clone https://github.com/SManAT/Maxima2School.git
+fi
+
 cd /home/student/.maxima/Maxima2School
 git pull
 # copy to global search_path
