@@ -3,10 +3,7 @@
 
 # update Maxima2School
 if [ ! -d "/home/student/.maxima/Maxima2School" ]; then
-  # Control will enter here if $DIRECTORY exists.
-  echo "NO"
-  mkdir -p /home/student/.maxima/Maxima2School
-  cd /home/student/.maxima/Maxima2School
+  cd /home/student/.maxima/
   git clone https://github.com/SManAT/Maxima2School.git
 fi
 
