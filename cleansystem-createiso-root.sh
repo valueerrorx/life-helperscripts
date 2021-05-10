@@ -13,8 +13,8 @@ sudo apt-get -y autoremove
 VBOX=`find /opt -maxdepth 1 -iname "vbox*"`
 sudo sh $VBOX/uninstall.sh
 
-echo "copy firststartwizard to autostart folder"
-cp /home/student/.life/applications/life-firststart/firststart.sh /home/student/.config/autostart-scripts/
+#echo "copy firststartwizard to autostart folder"
+#cp /home/student/.life/applications/life-firststart/firststart.sh /home/student/.config/autostart-scripts/
 
 
 echo "removing cache files"
