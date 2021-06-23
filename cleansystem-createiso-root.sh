@@ -25,7 +25,8 @@ sudo rm /var/crash/* > /dev/null 2>&1
 sudo rm /var/lib/snapd/cache/ -r > /dev/null 2>&1
 
 
-rm /home/student/.xsession-errors
+rm /home/student/.xsession-errors > /dev/null 2>&1
+
 
 echo "removing log files"
 rm /home/student/.life/EXAM/client.log > /dev/null 2>&1
