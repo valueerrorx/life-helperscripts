@@ -13,7 +13,6 @@ sed -i 's/"exit_type": "Normal"/"exit_type": "Normal","default_content_setting_v
 cat Preferences1 > Preferences
 
 
-
 #for firefox
 cd ~/.mozilla/firefox
 PREFSPATH=$(find . |grep "prefs.js" )
@@ -22,3 +21,4 @@ while IFS= read -r line; do
     echo 'user_pref("network.cookie.lifetimePolicy", 2);' >>  $line
 done <<< "$PREFSPATH"
 
+exit 0
