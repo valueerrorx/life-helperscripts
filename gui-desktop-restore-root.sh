@@ -30,22 +30,22 @@ fi;
 
 
 ## start progress with a lot of spaces (defines the width of the window - using geometry will move the window out of the center)
-progress=$(sudo -H -u ${USER} kdialog --progressbar "Stelle gesicherte Konfiguration wieder her...   ");
-sudo -H -u ${USER} qdbus $progress Set "" maximum 5
+progress=$(sudo -H kdialog --progressbar "Stelle gesicherte Konfiguration wieder her...   ");
+sudo -H qdbus $progress Set "" maximum 5
 sleep 0.5
 
 
 
 
-sudo -H -u ${USER} qdbus $progress Set "" value 1
-sudo -H -u ${USER} qdbus $progress setLabelText "Stelle kde.config wieder her...."
+sudo -H qdbus $progress Set "" value 1
+sudo -H qdbus $progress setLabelText "Stelle kde.config wieder her...."
 #cp -Ra ${BACKUPDIR}/kde.config/* ${HOME}.kde/share/config/
 rsync --exclude='*klipper/*' --exclude='*CacheStorage*' --exclude='*ScriptCache*' --exclude='*Trash*' --exclude='*RecentDocuments*'  --exclude='*katesession*' --exclude='*cache*' --exclude='*baloo/*' --exclude='*.log*' --exclude='*~' --exclude='*.pid' --exclude='*.bak' --exclude='*.[0-9].gz' --exclude='*.old' --exclude='*.deb' --exclude='*.local/lib/' --exclude='kdecache*' -avzh --ignore-errors ${BACKUPDIR}/kde.config/* ${HOME}.kde/share/config/
 
 
 
-sudo -H -u ${USER} qdbus $progress Set "" value 2
-sudo -H -u ${USER} qdbus $progress setLabelText "Stelle .config wieder her...."
+sudo -H qdbus $progress Set "" value 2
+sudo -H qdbus $progress setLabelText "Stelle .config wieder her...."
 #cp -Ra ${BACKUPDIR}/home.config/* ${HOME}.config/
 rsync --exclude='*klipper/*' --exclude='*CacheStorage*' --exclude='*ScriptCache*' --exclude='*Trash*' --exclude='*RecentDocuments*'  --exclude='*katesession*' --exclude='*cache*' --exclude='*baloo/*' --exclude='*.log*' --exclude='*~' --exclude='*.pid' --exclude='*.bak' --exclude='*.[0-9].gz' --exclude='*.old' --exclude='*.deb' --exclude='*.local/lib/' --exclude='kdecache*' -avzh --ignore-errors ${BACKUPDIR}/home.config/* ${HOME}.config/
 
@@ -53,8 +53,8 @@ rsync --exclude='*klipper/*' --exclude='*CacheStorage*' --exclude='*ScriptCache*
 
 sleep 0.5
 
-sudo -H -u ${USER} qdbus $progress Set "" value 3
-sudo -H -u ${USER} qdbus $progress setLabelText "Stelle .local wieder her...."
+sudo -H  qdbus $progress Set "" value 3
+sudo -H  qdbus $progress setLabelText "Stelle .local wieder her...."
 #cp -Ra ${BACKUPDIR}/home.local/* ${HOME}.local/
 rsync --exclude='*klipper/*' --exclude='*CacheStorage*' --exclude='*ScriptCache*' --exclude='*Trash*' --exclude='*RecentDocuments*'  --exclude='*katesession*' --exclude='*cache*' --exclude='*baloo/*' --exclude='*.log*' --exclude='*~' --exclude='*.pid' --exclude='*.bak' --exclude='*.[0-9].gz' --exclude='*.old' --exclude='*.deb' --exclude='*.local/lib/' --exclude='kdecache*' -avzh --ignore-errors ${BACKUPDIR}/home.local/* ${HOME}.local/
 

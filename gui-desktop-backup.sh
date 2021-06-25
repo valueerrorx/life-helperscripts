@@ -26,4 +26,4 @@ fi;
 
 
 ## start the progress
-exec ~/.life/applications/helperscripts/desktop-backup.sh
+exec ~/.life/applications/life-helperscripts/desktop-backup.sh
