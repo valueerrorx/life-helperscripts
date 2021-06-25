@@ -11,8 +11,8 @@ HOME="/home/${USER}/"
 
 
 
-kdialog  --caption "Cleanup" --title "Cleanup" \
---warningcontinuecancel "Möchten sie wirklich alle sichtbaren Dateien aus ihrem persönlichen Ordner sowie aus Downloads löschen? \n
+kdialog --title "Cleanup" \
+--warningcontinuecancel "Möchten sie wirklich alle sichtbaren Dateien aus ihrem persönlichen Ordner sowie aus Downloads/Dokumente löschen? \n
 $HOME
 $HOME/Downloads/"
 
@@ -21,6 +21,7 @@ $HOME/Downloads/"
 
 if [ "$?" = 0 ]; then
     rm -r $HOME/Downloads/*
+    rm -r $HOME/Dokumente/*
     rm $HOME/*
     rm $HOME/.local/share/RecentDocuments/*
     rm $HOME/.kde/share/apps/RecentDocuments/*
