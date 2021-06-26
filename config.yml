@@ -1,4 +1,0 @@
-development:
-  dev_branch: DEV
-  stable_branch: master
-  use: 1
