@@ -48,4 +48,5 @@ echo "Deskop Konfiguration wiederhergestellt!"
 echo "Starte Deskop neu!"
 sleep 0.5
 
-sudo killall Xorg
+exec ${HOME}.life/applications/life-helperscripts/softrestart-desktop.sh &
+
