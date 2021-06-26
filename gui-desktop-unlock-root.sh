@@ -63,8 +63,7 @@ sleep 4
 sudo -H qdbus $progress close
 
 
-sudo killall Xorg
-
+exec ${HOME}.life/applications/life-helperscripts/softrestart-desktop.sh &
 
 
 

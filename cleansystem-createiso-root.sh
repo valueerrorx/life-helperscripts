@@ -54,7 +54,7 @@ SLIST='system.trash|system.clipboard|system.recent_documents|system.rotated_logs
 
 
 sudo -u student -H bleachbit --list | grep -E "[a-z0-9_\-]+\.[a-z0-9_\-]+" | grep -E ${LIST} | sudo -u student -H xargs bleachbit --clean
-sudo -u student -H bleachbit --list | grep -E "[a-z0-9_\-]+\.[a-z0-9_\-]+" | grep -E ${SLIST} | sudo -u student -H xargs bleachbit --clean
+sudo bleachbit --list | grep -E "[a-z0-9_\-]+\.[a-z0-9_\-]+" | grep -E ${SLIST} | sudo xargs bleachbit --clean
 
 
 echo ""
@@ -65,8 +65,8 @@ history -c
 rm /home/student/.bash_history > /dev/null 2>&1
 
 #SSH
-sudo rm -r -v /home/student/.ssh
-sudo rm -r -v /root/.ssh
+sudo rm -r -v /home/student/.ssh > /dev/null 2>&1
+sudo rm -r -v /root/.ssh > /dev/null 2>&1
 
 
 echo "Backup Desktop Configuration "

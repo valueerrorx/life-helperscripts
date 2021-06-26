@@ -80,7 +80,6 @@ Starte Deskop neu!"
 sleep 4
 sudo -H -u ${USER} qdbus $progress close
 
-
-sudo killall Xorg
+exec ${HOME}.life/applications/life-helperscripts/softrestart-desktop.sh &
 
 

@@ -1,3 +1,6 @@
+/lib
+
+
 *CacheStorage*
 *ScriptCache*
 *cache*
@@ -20,7 +23,7 @@ kdecache*
 
 *klipper/*
 *baloo/*
-*.local/lib/
+
 
 *Atom/*
 *Brackets/*
