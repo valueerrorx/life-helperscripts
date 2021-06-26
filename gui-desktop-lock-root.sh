@@ -1,5 +1,5 @@
 #!/bin/bash
-# last updated: 28.11.2016
+# last updated: 26.06.2021
 # locks the desktop widgets 
 
 
@@ -75,13 +75,5 @@ sleep 4
 sudo -H qdbus $progress close
 
 
-
-
-
-sudo killall Xorg
-
-
-
-
-
+exec ${HOME}.life/applications/life-helperscripts/softrestart-desktop.sh &
 

@@ -30,12 +30,14 @@ echo "clear clipboard history"
 qdbus org.kde.klipper /klipper org.kde.klipper.klipper.clearClipboardHistory
 qdbus org.kde.klipper /klipper org.kde.klipper.klipper.clearClipboardContents
 
+history -c
+
 
 
 
 #
 echo "restoring previously saved desktop configuration"
 #
-exec $HOME/.life/applications/helperscripts/auto-desktop-restore-root.sh 
+exec $HOME/.life/applications/life-helperscripts/auto-desktop-restore-root.sh 
 
 exit 0
