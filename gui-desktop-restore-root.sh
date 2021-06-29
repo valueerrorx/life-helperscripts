@@ -80,6 +80,8 @@ Starte Deskop neu!"
 sleep 4
 sudo -H -u ${USER} qdbus $progress close
 
-exec ${HOME}.life/applications/life-helperscripts/softrestart-desktop.sh &
 
+sudo killall plasmashell      
+sudo -u ${USER} kwin_x11 --replace
+sudo -u ${USER}  kstart5 plasmashell
 

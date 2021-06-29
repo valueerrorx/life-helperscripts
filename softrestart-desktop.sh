@@ -12,11 +12,15 @@ HOME="/home/${USER}/"
 
 
 function killRunningApps(){
+        # kill desktop environment
+        pkill -f  plasmashell  
+    #   pkill -f  kwin_x11
+
         # kill all user applications !FIXME this has to be dynamic !
-        pkill -f dolphin
+        #pkill -f dolphin
         pkill -f calligrasheets
         pkill -f calligrawords
-        pkill -f kate
+        #pkill -f kate
         pkill -f konsole
         pkill -f geogebra
         pkill -f firefox
@@ -28,14 +32,13 @@ function killRunningApps(){
         pkill -f kcalc
         pkill -f okular
     
-        # kill desktop environment
-        pkill -f  plasmashell    
-        pkill -f  kwin_x11
+
 }
 
 
 
 killRunningApps
-        
-sudo -u ${USER} -E kstart5 kwin_x11
-sudo -u ${USER} -E kstart5 plasmashell
+
+sudo -u ${USER} kstart5 plasmashell      
+sudo -u ${USER} kwin_x11 --replace
+

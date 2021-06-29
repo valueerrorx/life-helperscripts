@@ -39,15 +39,15 @@ fi;
 
 
 ## start progress with a lot of spaces (defines the width of the window - using geometry will move the window out of the center)
-progress=$(sudo -H kdialog --progressbar "Sperre Desktop Widgets   ");
-sudo -H qdbus $progress Set "" maximum 3
+progress=$(sudo -H  -u ${USER} kdialog --progressbar "Sperre Desktop Widgets   ");
+sudo -H  -u ${USER} qdbus $progress Set "" maximum 3
 sleep 0.5
 
 
 
 
-sudo -H qdbus $progress Set "" value 1
-sudo -H qdbus $progress setLabelText "Sichere entsperrte Desktop Konfiguration ...."
+sudo -H  -u ${USER} qdbus $progress Set "" value 1
+sudo -H  -u ${USER} qdbus $progress setLabelText "Sichere entsperrte Desktop Konfiguration ...."
 
 
 cp -a ${HOME}.config/kglobalshortcutsrc ${BACKUPDIR}/lockdown/
@@ -57,8 +57,8 @@ cp -a ${HOME}.config/kglobalshortcutsrc ${BACKUPDIR}/lockdown/
 
 
 #some preconfigured config files needed for a complete lockdown
-sudo -H qdbus $progress Set "" value 2
-sudo -H qdbus $progress setLabelText "Lade gesperrte Konfiguration ...."
+sudo -H  -u ${USER} qdbus $progress Set "" value 2
+sudo -H  -u ${USER} qdbus $progress setLabelText "Lade gesperrte Konfiguration ...."
 
 sudo cp ${BACKUPDIR}/lockdown/kde5rc-LOCK /etc/kde5rc
 cp -a ${BACKUPDIR}/lockdown/kglobalshortcutsrc-LOCK ${HOME}.config/kglobalshortcutsrc
@@ -68,12 +68,13 @@ cp -a ${BACKUPDIR}/lockdown/kglobalshortcutsrc-LOCK ${HOME}.config/kglobalshortc
 
 
 
-sudo -H qdbus $progress Set "" value 3
-sudo -H qdbus $progress setLabelText "Deskop gesperrt...
+sudo -H  -u ${USER} qdbus $progress Set "" value 3
+sudo -H  -u ${USER} qdbus $progress setLabelText "Deskop gesperrt...
 Starte Desktop neu!"
-sleep 4
-sudo -H qdbus $progress close
+sleep 1
+sudo -H -u ${USER}  qdbus $progress close
 
 
-exec ${HOME}.life/applications/life-helperscripts/softrestart-desktop.sh &
-
+sudo killall plasmashell      
+sudo -u ${USER} kwin_x11 --replace
+sudo -u ${USER} kstart5 plasmashell

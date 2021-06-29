@@ -32,14 +32,14 @@ fi;
   
   
  ## start progress with a lot of spaces (defines the width of the window - using geometry will move the window out of the center)
-progress=$(sudo -H kdialog --progressbar "Desktop wird entsperrt...   ");
-sudo -H qdbus $progress Set "" maximum 3
+progress=$(sudo -H -u ${USER} kdialog --progressbar "Desktop wird entsperrt...   ");
+sudo -H -u ${USER} qdbus $progress Set "" maximum 3
 sleep 0.5 
   
 
 # restore previous desktop config
-sudo -H qdbus $progress Set "" value 1
-sudo -H qdbus $progress setLabelText "Stelle entsperrte Konfigurationsdateien wieder her.... "
+sudo -H -u ${USER} qdbus $progress Set "" value 1
+sudo -H -u ${USER} qdbus $progress setLabelText "Stelle entsperrte Konfigurationsdateien wieder her.... "
 sleep 0.5
 
 
@@ -48,22 +48,22 @@ cp -a ${BACKUPDIR}/lockdown/kglobalshortcutsrc ${HOME}.config/
 
 
 # change mount rights to execute
-sudo -H qdbus $progress Set "" value 2
-sudo -H qdbus $progress setLabelText "Entferne Sperrdateien...."
+sudo -H -u ${USER}  qdbus $progress Set "" value 2
+sudo -H  -u ${USER} qdbus $progress setLabelText "Entferne Sperrdateien...."
 sleep 0.5
 
 
 sudo rm /etc/kde5rc
 sudo chmod +x /usr/bin/systemsettings5
 
-sudo -H qdbus $progress Set "" value 3
-sudo -H qdbus $progress setLabelText "Deskop freigegeben...
+sudo -H  -u ${USER} qdbus $progress Set "" value 3
+sudo -H  -u ${USER} qdbus $progress setLabelText "Deskop freigegeben...
 Starte Deskop neu!"
-sleep 4
-sudo -H qdbus $progress close
-
-
-exec ${HOME}.life/applications/life-helperscripts/softrestart-desktop.sh &
+sleep 1
+sudo -H  -u ${USER} qdbus $progress close
 
 
 
+sudo killall plasmashell      
+sudo -u ${USER} kwin_x11 --replace
+sudo -u ${USER}  kstart5 plasmashell
