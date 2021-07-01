@@ -34,7 +34,7 @@ rm -r ${HOME}.cache  > /dev/null 2>&1  #hide errors
 
 echo "Deskop Konfiguration wiederhergestellt!"
 
-
-exec ${HOME}.life/applications/life-helperscripts/softrestart-desktop.sh &
+# kein neustart da dieses script auch beim logout augeführt werden könnte
+# exec ${HOME}.life/applications/life-helperscripts/softrestart-desktop.sh &
 
 exit 0
