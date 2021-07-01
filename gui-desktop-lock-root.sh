@@ -75,6 +75,7 @@ sleep 1
 sudo -H -u ${USER}  qdbus $progress close
 
 
-sudo killall plasmashell      
+sudo killall plasmashell  
+sleep 1
 sudo -u ${USER} kwin_x11 --replace
 sudo -u ${USER} kstart5 plasmashell
