@@ -38,7 +38,7 @@ function killRunningApps(){
 
 
 killRunningApps
+sudo -u ${USER} kwin_x11 --replace&
+sudo -u ${USER} kstart5 plasmashell&      
 
-sudo -u ${USER} kstart5 plasmashell      
-sudo -u ${USER} kwin_x11 --replace
 
