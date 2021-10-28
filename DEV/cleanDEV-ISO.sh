@@ -20,12 +20,13 @@ rm /home/student/.bashrc
 mv /home/student/.bashrc_student /home/student/.bashrc
 sudo chown student:student /home/student/.bashrc
 
-cd /home/student/.life/applications/life-helperscripts/DEV/
-tar xvfz 80fj2lnv.Student.tar.gz
-sudo rm -r -v /home/student/.mozilla/firefox/wylpy3go.Main/*
-sudo cp -r 80fj2lnv.Student/* /home/student/.mozilla/firefox/wylpy3go.Main/
-sudo chown -R student:student /home/student/.mozilla/firefox/wylpy3go.Main/
-rm -r 80fj2lnv.Student/
+# Firefox Profile -- OLD --
+# cd /home/student/.life/applications/life-helperscripts/DEV/
+# tar xvfz 80fj2lnv.Student.tar.gz
+# sudo rm -r -v /home/student/.mozilla/firefox/wylpy3go.Main/*
+# sudo cp -r 80fj2lnv.Student/* /home/student/.mozilla/firefox/wylpy3go.Main/
+# sudo chown -R student:student /home/student/.mozilla/firefox/wylpy3go.Main/
+# rm -r 80fj2lnv.Student/
 
 
 # atom
