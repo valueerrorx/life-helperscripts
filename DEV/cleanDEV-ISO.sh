@@ -45,6 +45,7 @@ sudo rm -r -v /home/student/.p2
 sudo rm -r -v /home/student/.atom
 sudo rm -r -v /home/student/.pylint.d
 sudo rm -r -v /home/student/eclipse-workspace
+sudo rm -r -v /home/student/eclipse
 
 sudo rm -r -v /home/student/.local/share/TelegramDesktop
 sudo rm -r -v /home/student/snap/
@@ -76,7 +77,13 @@ find /home/student/ -type d -regextype sed -iregex ".*/[\.]*atom" -exec rm -r -v
 find /home/student/.local -type d -name "python2.[0-9]" -exec rm -r -v {} \;
 find /home/student/.local -type d -name "python3.[0-9]" -exec rm -r -v {} \;
 
+# reinstall accidently deletet python modules
+cd /home/student/LIFE/life-exam/
+sudo pip3 install .
+
+# cosmetics
 sudo rm -r -v /home/student/Downloads/*
+sudo rm -r -v /home/student/Dokumente/*
 
 echo ""
 echo ""
