@@ -2,15 +2,14 @@
 #cleaning Development Environment and Build ISO File
 
 # update Maxima2School
-if [ ! -d "/home/student/.maxima/Maxima2School" ]; then
-  cd /home/student/.maxima/
+if [ ! -d "/home/student/Maxima2School" ]; then
   git clone https://github.com/SManAT/Maxima2School.git
 fi
 
-cd /home/student/.maxima/Maxima2School
+cd /home/student/Maxima2School
 git pull
 # copy to global search_path
-cp InitMaxima.mac ../
+cp InitMaxima.mac /home/student/.maxima/
 
 sudo chown -R student:student /home/student/
 
