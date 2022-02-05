@@ -3,6 +3,7 @@
 
 # update Maxima2School
 if [ ! -d "/home/student/Maxima2School" ]; then
+  cd /home/student
   git clone https://github.com/SManAT/Maxima2School.git
 fi
 
@@ -28,7 +29,6 @@ sudo chown student:student /home/student/.bashrc
 # rm -r 80fj2lnv.Student/
 
 
-# atom
 sudo apt -y purge atom
 sudo apt -y purge signal-desktop
 sudo apt -y autoclean
