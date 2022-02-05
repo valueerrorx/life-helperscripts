@@ -31,6 +31,7 @@ sudo chown student:student /home/student/.bashrc
 
 # atom
 sudo apt -y purge atom
+sudo apt -y purge signal-desktop
 sudo apt -y autoclean
 sudo apt -y autoremove
 
